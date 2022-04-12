@@ -2,7 +2,8 @@
 
 ## Download cell images
 
-Cell images are available on an S3 bucket. The images can be downloaded using the command
+Cell images are available on an S3 bucket.
+The images can be downloaded using the command
 
 ```bash
 plate = BR00117011__2020-11-08T19_57_47-Measurement1
@@ -21,6 +22,20 @@ aws s3 cp \
   --no-sign-request \
   s3://cellpainting-gallery/jump-pilot/source_4/images/2020_11_04_CPJUMP1/images/${suffix} .
 ```
+
+## Download illumination correction files
+
+Illumination correction files, produced by running illum.cppipe on the cell images, are available on an S3 bucket. 
+The images can be downloaded using the command
+
+```bash
+plate = BR00117011
+aws s3 cp \
+  --no-sign-request \
+  --recursive \
+  s3://cellpainting-gallery/jump-pilot/source_4/images/2020_11_04_CPJUMP1/illum/${plate} .
+```
+
 ## Image metadata
 
 The image metadata will be automatically extracted from the images using the pipelines provided.
