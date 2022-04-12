@@ -5,7 +5,7 @@
 Cell images are available on an S3 bucket. The images can be downloaded using the command
 
 ```bash
-plate = BR00116991__2020-11-05T19_51_35-Measurement1
+plate = BR00117011__2020-11-08T19_57_47-Measurement1
 aws s3 cp \
   --no-sign-request \
   --recursive \
@@ -15,7 +15,7 @@ aws s3 cp \
 You can test out download for a single file using:
 
 ```
-suffix=BR00116991__2020-11-05T19_51_35-Measurement1/Images/r01c01f01p01-ch1sk1fk1fl1.tiff
+suffix=BR00117011__2020-11-08T19_57_47-Measurement1/Images/r01c01f01p01-ch1sk1fk1fl1.tiff
 
 aws s3 cp \
   --no-sign-request \
