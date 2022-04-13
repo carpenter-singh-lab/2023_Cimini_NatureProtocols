@@ -15,7 +15,7 @@ aws s3 cp \
 
 You can test out download for a single file using:
 
-```
+```bash
 suffix=BR00117011__2020-11-08T19_57_47-Measurement1/Images/r01c01f01p01-ch1sk1fk1fl1.tiff
 
 aws s3 cp \
@@ -25,7 +25,7 @@ aws s3 cp \
 
 ## Download illumination correction files
 
-Illumination correction files, produced by running illum.cppipe on the cell images, are available on an S3 bucket. 
+Illumination correction files, produced by running illum.cppipe on the cell images, are available on an S3 bucket.
 The images can be downloaded using the command
 
 ```bash
@@ -35,6 +35,18 @@ aws s3 cp \
   --recursive \
   s3://cellpainting-gallery/jump-pilot/source_4/images/2020_11_04_CPJUMP1/illum/${plate} .
 ```
+
+## Download sample morphological profiling dataset
+
+The sample morphological profiling dataset was created from the provided sample images.
+It is available for download from S3 using the command
+
+```bash
+aws s3 cp \
+  --no-sign-request \
+  s3://cellpainting-gallery/jump-pilot/source_4/workspace/backend/2020_11_04_CPJUMP1/BR00117011/BR00117011.csv .
+```
+
 
 ## Image metadata
 
