@@ -1,0 +1,440 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:413
+GitHash:
+ModuleCount:18
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. Drag and drop your image folders and your illum correction images into the module.', 'You can also specify a set of rules to include only the desired files in your selected folders.', 'For a large screen, it may take a long time to read and collect all the images. However, this only needs to be done once as the file list is saved as part of the project file.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Custom
+    Select the rule criteria:or (extension does isimage) (file does contain ".npy")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e. metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file. The settings here assume a Perkin Elmer Opera Phenix microscope and use the folder name to extract the Plate and the file name to extract the Row, Column, Site, and Channel. The Well is automatically extracted.', 'When using your own dataset, you will need to update this module to recognize and extract your metadata.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:2
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:Folder name
+    Regular expression to extract from file name:^(?P<Plate>.*)_(?P<Well>[A-P][0-9]{2})_s(?P<Site>[0-9])_w(?P<ChannelNumber>[0-9])
+    Regular expression to extract from folder name:(?P<Plate>[A-Z]{2}[0-9]{8})
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:r(?P<Row>[0-9]{2})c(?P<Column>[0-9]{2})f(?P<Site>[0-9]{2}).*ch(?P<Channel>[0-9]{1})
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.', 'The settings here match the channels by the channel number collected in the Metadata module. They also recognize the illumination correction images and match them to the images by plate.', ' Setting the image set matching method to Metadata has the advantage of omitting sites in which there is a metadata mismatch i.e missing files.', 'Select Update to create your image sets and populate the chart below. Note that this may take several minutes depending upon your number of files.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:DNA
+    Match metadata:[{'IllumAGP': 'Plate', 'IllumBrightfield': 'Plate', 'IllumBrightfield_H': 'Plate', 'IllumBrightfield_L': 'Plate', 'IllumDNA': 'Plate', 'IllumER': 'Plate', 'IllumMito': 'Plate', 'IllumRNA': 'Plate', 'OrigAGP': 'Plate', 'OrigBrightfield': 'Plate', 'OrigBrightfield_H': 'Plate', 'OrigBrightfield_L': 'Plate', 'OrigDNA': 'Plate', 'OrigER': 'Plate', 'OrigMito': 'Plate', 'OrigRNA': 'Plate'}, {'IllumAGP': None, 'IllumBrightfield': None, 'IllumBrightfield_H': None, 'IllumBrightfield_L': None, 'IllumDNA': None, 'IllumER': None, 'IllumMito': None, 'IllumRNA': None, 'OrigAGP': 'Well', 'OrigBrightfield': 'Well', 'OrigBrightfield_H': 'Well', 'OrigBrightfield_L': 'Well', 'OrigDNA': 'Well', 'OrigER': 'Well', 'OrigMito': 'Well', 'OrigRNA': 'Well'}, {'IllumAGP': None, 'IllumBrightfield': None, 'IllumBrightfield_H': None, 'IllumBrightfield_L': None, 'IllumDNA': None, 'IllumER': None, 'IllumMito': None, 'IllumRNA': None, 'OrigAGP': 'Site', 'OrigBrightfield': 'Site', 'OrigBrightfield_H': 'Site', 'OrigBrightfield_L': 'Site', 'OrigDNA': 'Site', 'OrigER': 'Site', 'OrigMito': 'Site', 'OrigRNA': 'Site'}]
+    Image set matching method:Metadata
+    Set intensity range from:Image metadata
+    Assignments count:17
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (metadata does Channel "1")
+    Name to assign these images:OrigMito
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "2")
+    Name to assign these images:OrigAGP
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "3")
+    Name to assign these images:OrigRNA
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "4")
+    Name to assign these images:OrigER
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "5")
+    Name to assign these images:OrigDNA
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "6")
+    Name to assign these images:OrigBrightfield_H
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "7")
+    Name to assign these images:OrigBrightfield_L
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "7")
+    Name to assign these images:OrigBrightfield_L
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "8")
+    Name to assign these images:OrigBrightfield
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumAGP.npy")
+    Name to assign these images:IllumAGP
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumBrightfield.npy")
+    Name to assign these images:IllumBrightfield
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumDNA.npy")
+    Name to assign these images:IllumDNA
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumER.npy")
+    Name to assign these images:IllumER
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumMito.npy")
+    Name to assign these images:IllumMito
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (file does contain "IllumRNA.npy")
+    Name to assign these images:IllumRNA
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:or (file does contain "IllumHighZBF.npy") (file does contain "IllumBrightfield_H.npy")
+    Name to assign these images:IllumBrightfield_H
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:or (file does contain "IllumLowZBF.npy") (file does contain "IllumBrightfield_L.npy")
+    Name to assign these images:IllumBrightfield_L
+    Name to assign these objects:Cell
+    Select the image type:Illumination function
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:Yes
+    grouping metadata count:1
+    Metadata category:Well
+
+FlagImage:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:["This module sets the pipeline to skip all sites that aren't site 2.", 'If you would like to segment all sites, uncheck this module.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Hidden:1
+    Hidden:1
+    Name the flag's category:Metadata
+    Name the flag:QCFlag
+    How should measurements be linked?:Flag if any fail
+    Skip image set if flagged?:Yes
+    Flag is based on:Whole-image measurement
+    Select the object to be used for flagging:None
+    Which measurement?:Metadata_Site
+    Flag images based on low values?:Yes
+    Minimum value:1.9
+    Flag images based on high values?:Yes
+    Maximum value:2.1
+    Rules file location:Elsewhere...|
+    Rules file name:rules.txt
+    Class number:
+    Ignore flag skips on last cycle?:No
+
+CorrectIlluminationApply:[module_num:6|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['This module applies the illumination correction functions created by the illum pipeline to the input images.', 'If you would like to measure QC metrics of uncorrected images you can uncheck this module, though you will need to modify the image names in subsequent modules so that they are looking for the input images.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigDNA
+    Name the output image:DNA
+    Select the illumination function:IllumDNA
+    Select how the illumination function is applied:Divide
+    Select the input image:OrigER
+    Name the output image:ER
+    Select the illumination function:IllumER
+    Select how the illumination function is applied:Divide
+    Select the input image:OrigAGP
+    Name the output image:AGP
+    Select the illumination function:IllumAGP
+    Select how the illumination function is applied:Divide
+    Select the input image:OrigMito
+    Name the output image:Mito
+    Select the illumination function:IllumMito
+    Select how the illumination function is applied:Divide
+    Select the input image:OrigBrightfield
+    Name the output image:Brightfield
+    Select the illumination function:IllumBrightfield
+    Select how the illumination function is applied:Divide
+    Select the input image:OrigRNA
+    Name the output image:RNA
+    Select the illumination function:IllumRNA
+    Select how the illumination function is applied:Divide
+    Set output image values less than 0 equal to 0?:Yes
+    Set output image values greater than 1 equal to 1?:Yes
+
+CorrectIlluminationCalculate:[module_num:7|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['Performs a calculation to remove background and fluorescent noise in each image.', 'Note that this correction is applied only to images used for identifying nuclei. CellPainting analysis measurements are NOT taken on images that have undergone this correction.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DNA
+    Name the output image:IllumBlue
+    Select how the illumination function is calculated:Background
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:30
+    Rescale the illumination function?:No
+    Calculate function for each image individually, or based on all images?:Each
+    Smoothing method:Gaussian Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:50
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2.0
+    Image resampling factor:2.0
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+CorrectIlluminationApply:[module_num:8|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['Applies the illumination correction from the previous module to the DNA image.', 'Note that this correction is applied only to images used for identifying nuclei. CellPainting analysis measurements are NOT taken on images that have undergone this correction.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DNA
+    Name the output image:CorrBlue
+    Select the illumination function:IllumBlue
+    Select how the illumination function is applied:Subtract
+    Set output image values less than 0 equal to 0?:Yes
+    Set output image values greater than 1 equal to 1?:Yes
+
+IdentifyPrimaryObjects:[module_num:9|svn_version:'Unknown'|variable_revision_number:14|show_window:False|notes:['Identify the nuclei based on the DNA image.', ' The settings here were chosen based on the image data and acqusition settings provided in Cimini et al., Nature Protocols, 2022. Changing the image acqusition settings may affect a number of these parameters. You should optimize these parameters until they perform well to identify nuclei in your particular dataset.', 'Typical diameter of objects: From the display window menu select Tools > Measure length. Click/drag to measure diameters of a few select nuclei.', 'Thresholding strategy: Global works fine in most cases but Adaptive may work better if the background has non-uniform illumination. However', ' the illumination correction in CorrectIlluminationApply should mitigate the latter.', 'Thresholding method: Select the method which provides the best foreground/background separation. Adjust the threshold corrrection factor if the threshold is consistently above/below where you want it to be for most images tested. ', 'Lower threshold bound: Mouse over the background region to see the intensity variation in the lower-right of the display window.', 'Method to distinguish clumped objects: Use Intensity if the intensity gradient dividing touching nuclei are pretty clear even if clumpy. Use Shape if the nuclei are usually well-separated (and Intensity doesnt work).', 'Method to draw dividing lines between clumped objects: Intensity usually gives more realistic-looking boundary lines.', 'Size of smoothing filter/minimum distance between local maxima: Override defaults if nuclei are getting under/over-segmented.']|batch_state:array(b'', dtype='|S1')|enabled:True|wants_pause:False]
+    Select the input image:CorrBlue
+    Name the primary objects to be identified:Nuclei
+    Typical diameter of objects, in pixel units (Min,Max):15,90
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Shape
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:8
+    Speed up by using lower-resolution image to find local maxima?:No
+    Fill holes in identified objects?:After declumping only
+    Automatically calculate size of smoothing filter for declumping?:No
+    Automatically calculate minimum allowed distance between local maxima?:No
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:Yes
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Minimum Cross-Entropy
+    Threshold smoothing scale:1
+    Threshold correction factor:1
+    Lower and upper bounds on threshold:0.005,1
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Background
+    Size of adaptive window:100
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2
+    Thresholding method:Otsu
+
+IdentifySecondaryObjects:[module_num:10|svn_version:'Unknown'|variable_revision_number:10|show_window:False|notes:['Identify the cells using the nuclei objects plus an image representative of the cell body. Several of the channels could suffice for this purpose, but we chose the RNA channel as optimal. Using the “Watershed-Image” option over the default “Propagate” methods seems to often better capture the cell boundaries, especially when the cells are confluent.']|batch_state:array(b'', dtype='|S1')|enabled:True|wants_pause:False]
+    Select the input objects:Nuclei
+    Name the objects to be identified:Cells
+    Select the method to identify the secondary objects:Watershed - Image
+    Select the input image:RNA
+    Number of pixels by which to expand the primary objects:10
+    Regularization factor:0.05
+    Discard secondary objects touching the border of the image?:No
+    Discard the associated primary objects?:No
+    Name the new primary objects:FilteredNuclei
+    Fill holes in identified objects?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Otsu
+    Threshold smoothing scale:0
+    Threshold correction factor:0.7
+    Lower and upper bounds on threshold:0.005,.06
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Three classes
+    Log transform before thresholding?:Yes
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:100
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2
+    Thresholding method:Default
+
+IdentifyTertiaryObjects:[module_num:11|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['The cytoplasm is identified as the cell body “minus” the nuclei.']|batch_state:array(b'', dtype='|S1')|enabled:True|wants_pause:True]
+    Select the larger identified objects:Cells
+    Select the smaller identified objects:Nuclei
+    Name the tertiary objects to be identified:Cytoplasm
+    Shrink smaller object prior to subtraction?:Yes
+
+RescaleIntensity:[module_num:12|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['This module rescales the DNA image so that it is easy to see by eye.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DNA
+    Name the output image:RescaleDNA
+    Rescaling method:Stretch each image to use the full intensity range
+    Method to calculate the minimum intensity:Custom
+    Method to calculate the maximum intensity:Custom
+    Lower intensity limit for the input image:0.0
+    Upper intensity limit for the input image:1.0
+    Intensity range for the input image:0.0,1.0
+    Intensity range for the output image:0.0,1.0
+    Select image to match in maximum intensity:None
+    Divisor value:1.0
+    Divisor measurement:None
+
+RescaleIntensity:[module_num:13|svn_version:'Unknown'|variable_revision_number:3|show_window:False|notes:['This module rescales the AGP image so that it is easy to see by eye.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:AGP
+    Name the output image:RescaleAGP
+    Rescaling method:Stretch each image to use the full intensity range
+    Method to calculate the minimum intensity:Minimum for each image
+    Method to calculate the maximum intensity:Maximum for each image
+    Lower intensity limit for the input image:0.0
+    Upper intensity limit for the input image:1.0
+    Intensity range for the input image:0.0,1.0
+    Intensity range for the output image:0.2,0.5
+    Select image to match in maximum intensity:None
+    Divisor value:1.0
+    Divisor measurement:None
+
+GrayToColor:[module_num:14|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['This module combines the rescaled DNA and AGP images into a single color image for visualization by eye.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select a color scheme:RGB
+    Rescale intensity:No
+    Select the image to be colored red:RescaleDNA
+    Select the image to be colored green:RescaleAGP
+    Select the image to be colored blue:RescaleDNA
+    Name the output image:ColorImage
+    Relative weight for the red image:1
+    Relative weight for the green image:1
+    Relative weight for the blue image:1
+    Select the image to be colored cyan:Leave this black
+    Select the image to be colored magenta:Leave this black
+    Select the image to be colored yellow:Leave this black
+    Select the image that determines brightness:Leave this black
+    Relative weight for the cyan image:1.0
+    Relative weight for the magenta image:1.0
+    Relative weight for the yellow image:1.0
+    Relative weight for the brightness image:1.0
+    Hidden:1
+    Image name:None
+    Color:#ff0000
+    Weight:1.0
+
+ImageMath:[module_num:15|svn_version:'Unknown'|variable_revision_number:5|show_window:False|notes:['This module further modifies the color image to make it easier to see by eye.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Operation:None
+    Raise the power of the result by:0.5
+    Multiply the result by:1.0
+    Add to result:0.0
+    Set values less than 0 equal to 0?:Yes
+    Set values greater than 1 equal to 1?:Yes
+    Replace invalid values with 0?:Yes
+    Ignore the image masks?:No
+    Name the output image:ImageAfterMath
+    Image or measurement?:Image
+    Select the first image:ColorImage
+    Multiply the first image by:1.0
+    Measurement:
+    Image or measurement?:Image
+    Select the second image:None
+    Multiply the second image by:1.0
+    Measurement:
+
+OverlayOutlines:[module_num:16|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:['This module overlays the nuclei and cell segmented objects onto the image that is rescaled for visualization.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Display outlines on a blank image?:No
+    Select image on which to display outlines:ImageAfterMath
+    Name the output image:OverlayImage
+    Outline display mode:Color
+    Select method to determine brightness of outlines:Max of image
+    How to outline:Inner
+    Select outline color:white
+    Select objects to display:Nuclei
+    Select outline color:yellow
+    Select objects to display:Cells
+
+SaveImages:[module_num:17|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:['This module saves the overlay image created for visualizing object segmentation.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:OverlayImage
+    Select method for constructing file names:Single name
+    Select image name for file prefix:OrigDNA
+    Enter single file name:\g<Plate>_\g<Well>
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:png
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+ExportToSpreadsheet:[module_num:18|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:["This module saves .csv's with information about the identified objects. It is not strictly necessary for the visualization of objects and can be unchecked."]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the column delimiter:Comma (",")
+    Add image metadata columns to your object data file?:No
+    Add image file and folder names to your object data file?:No
+    Select the measurements to export:No
+    Calculate the per-image mean values for object measurements?:No
+    Calculate the per-image median values for object measurements?:No
+    Calculate the per-image standard deviation values for object measurements?:No
+    Output file location:Default Output Folder|
+    Create a GenePattern GCT file?:No
+    Select source of sample row name:Metadata
+    Select the image to use as the identifier:None
+    Select the metadata to use as the identifier:None
+    Export all measurement types?:Yes
+    Press button to select measurements:
+    Representation of Nan/Inf:NaN
+    Add a prefix to file names?:No
+    Filename prefix:
+    Overwrite existing files without warning?:Yes
+    Data to export:Do not use
+    Combine these object measurements with those of the previous object?:No
+    File name:DATA.csv
+    Use the object name for the file name?:Yes
