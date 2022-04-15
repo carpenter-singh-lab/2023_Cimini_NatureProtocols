@@ -1,0 +1,3 @@
+[submodule "profiles-cp-jump1"]
+	path = profiles-cp-jump1
+	url = https://github.com/jump-cellpainting/pilot-cpjump1-data.git
