@@ -9,6 +9,7 @@ from sklearn.utils.validation import check_is_fitted
 from sklearn.utils import check_array, as_float_array
 from sklearn.base import TransformerMixin, BaseEstimator
 import kneed
+import seaborn as sns
 
 random.seed(9000)
 
@@ -209,3 +210,12 @@ def calculate_percent_replicating(batch_path,plate):
     prop_95, value_95 = percent_score(null_corr, replicate_corr)
 
     return(prop_95)
+
+def plot_simple_comparison(df,x,hue):
+    sns.set_style("ticks")
+    sns.set_context("paper",font_scale=1.5)
+    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',s=8,linewidth=1)
+    g.set(ylim=([0,1]))
+    plotname = f"../figures/{x}-{hue}.png"
+    g.savefig(plotname,dpi=300)
+    print(f'Saved to {plotname}')
