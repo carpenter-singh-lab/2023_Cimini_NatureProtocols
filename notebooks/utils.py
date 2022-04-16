@@ -214,7 +214,7 @@ def calculate_percent_replicating(batch_path,plate):
 def plot_simple_comparison(df,x,hue):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
-    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',s=8,linewidth=1)
+    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',s=8,linewidth=1,jitter=0.25,alpha=0.9,dodge=True)
     g.set(ylim=([0,1]))
     plotname = f"../figures/{x}-{hue}.png"
     g.savefig(plotname,dpi=300)
