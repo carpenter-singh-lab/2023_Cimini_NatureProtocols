@@ -380,7 +380,7 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
     return(prop_95)
 
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
-col=None, col_order=None,row=None,row_order=None,jitter=0.25,dodge=True):
+col=None, col_order=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
@@ -395,7 +395,8 @@ col=None, col_order=None,row=None,row_order=None,jitter=0.25,dodge=True):
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set(ylim=([0,1]))
     g.set_xticklabels(labels=labels,rotation=0)
-    plotname = f"../figures/{x}-{hue}.png"
+    if not plotname:
+        plotname = f"../figures/{x}-{hue}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
