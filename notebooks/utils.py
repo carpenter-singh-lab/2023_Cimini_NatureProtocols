@@ -1,10 +1,12 @@
 #adapted with appreciation from https://github.com/jump-cellpainting/pilot-cpjump1-analysis
 
 import os
+import random
+import textwrap
+
 import pandas as pd
 import numpy as np
 import scipy
-import random
 from sklearn.utils.validation import check_is_fitted
 from sklearn.utils import check_array, as_float_array
 from sklearn.base import TransformerMixin, BaseEstimator
@@ -248,8 +250,14 @@ def calculate_percent_replicating_Target(batch_path,platelist,sphere=None):
 def plot_simple_comparison(df,x,hue):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
-    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',s=8,linewidth=1,jitter=0.25,alpha=0.9,dodge=True)
+    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',
+    s=8,linewidth=1,jitter=0.25,alpha=0.9,dodge=True)
+    labels = []
+    orig_labels = set(df[x].values)
+    for label in orig_labels:
+        labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set(ylim=([0,1]))
+    g.set_xticklabels(labels=labels,rotation=0)
     plotname = f"../figures/{x}-{hue}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
