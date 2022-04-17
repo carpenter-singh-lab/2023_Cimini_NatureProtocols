@@ -204,7 +204,7 @@ def calculate_percent_replicating_MOA(batch_path,plate):
 
     return(prop_95)
 
-def calculate_percent_replicating_Target(batch_path,platelist,sphere=None):
+def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
     """
     For plates treated with the JUMP-Target source plates, most 
     perturbations are only present in one or two 2 copies per plate. 
@@ -226,7 +226,7 @@ def calculate_percent_replicating_Target(batch_path,platelist,sphere=None):
 
     for plate in platelist:
         plate_df = pd.read_csv(os.path.join(batch_path, plate,
-                                            plate+'_normalized_feature_select_negcon.csv.gz'))
+                                            plate+suffix))
         
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
