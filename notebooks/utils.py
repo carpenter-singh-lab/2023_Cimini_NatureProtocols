@@ -323,7 +323,7 @@ def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,suffix
     data_df = remove_negcon_empty_wells(data_df)
 
     replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
-    null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=4, metadata_compound_name = metadata_compound_name))
+    null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=len(platelist), metadata_compound_name = metadata_compound_name))
 
     prop_95, _ = percent_score(null_corr, replicate_corr)
 
