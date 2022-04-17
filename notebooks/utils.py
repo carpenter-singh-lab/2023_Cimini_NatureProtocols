@@ -256,6 +256,7 @@ def plot_simple_comparison(df,x,hue,order=None,hue_order=None):
     labels = []
     orig_labels = list(dict.fromkeys(df[x].values).keys())
     for label in orig_labels:
+        label = str(label)
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set(ylim=([0,1]))
     g.set_xticklabels(labels=labels,rotation=0)
