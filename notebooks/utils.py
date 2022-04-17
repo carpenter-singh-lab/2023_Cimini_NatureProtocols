@@ -41,15 +41,6 @@ def remove_negcon_empty_wells(df):
     )
     return df
 
-
-def remove_empty_wells(df):
-    """return dataframe of non-empty wells"""
-    df = (
-        df.dropna(subset=['Metadata_broad_sample'])
-        .reset_index(drop=True)
-    )
-    return df
-
 def percent_score(null_dist, corr_dist, how='right'):
     """
     Calculates the Percent replicating
@@ -189,13 +180,13 @@ def sphere_plate_zca_corr(plate):
     assert combined.shape == plate.shape
     return combined
 
-def calculate_percent_replicating(batch_path,plate):
-    metadata_plate = 'Metadata_Plate'
+def calculate_percent_replicating_MOA(batch_path,plate):
+    """
+    For plates treated with the JUMP-MOA source plates, at least 
+    4 copies of each perturbation are present on each plate.
+    Percent replicating is therefore calculated per plate.
+    """
     metadata_compound_name = 'Metadata_pert_iname'
-    metadata_moa = 'Metadata_moa'
-    corr_strong_df= pd.DataFrame()
-    corr_recall_df= pd.DataFrame()
-    compound_names = []
     n_samples_strong = 10000
     data_df = pd.read_csv(os.path.join(batch_path, plate,
                                            plate+'_normalized_feature_select_negcon.csv.gz'))
@@ -207,7 +198,50 @@ def calculate_percent_replicating(batch_path,plate):
     replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
     null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=4, metadata_compound_name = metadata_compound_name))
 
-    prop_95, value_95 = percent_score(null_corr, replicate_corr)
+    prop_95, _ = percent_score(null_corr, replicate_corr)
+
+    return(prop_95)
+
+def calculate_percent_replicating_Target(batch_path,platelist,sphere=None):
+    """
+    For plates treated with the JUMP-Target source plates, most 
+    perturbations are only present in one or two 2 copies per plate. 
+    Percent replicating is therefore calculated per group of replicate plates.
+
+    Since feature selection happens on a per-plate level, an inner join
+    is performed across all plates in the replicate, meaning only common
+    features are used in calculation of percent replicating.
+
+    It doesn't look like sphering was done consistently in previous 
+    analysis of these plates, therefore it is configurable here; either 
+    not done, done at the plate level by passing 'sphere=plate', or 
+    done at the batch level by passing 'sphere=batch'.
+    """
+    metadata_compound_name = 'Metadata_broad_sample'
+    n_samples_strong = 10000
+
+    data_dict = {}
+
+    for plate in platelist:
+        plate_df = pd.read_csv(os.path.join(batch_path, plate,
+                                            plate+'_normalized_feature_select_negcon.csv.gz'))
+        
+        if sphere == 'plate':
+            plate_df = sphere_plate_zca_corr(plate_df)
+
+        data_dict[plate] = plate_df
+    
+    data_df = pd.concat(data_dict, join='inner', ignore_index=True)
+
+    if sphere == 'batch':
+        data_df = sphere_plate_zca_corr(data_df)
+
+    data_df = remove_negcon_empty_wells(data_df)
+
+    replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
+    null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=4, metadata_compound_name = metadata_compound_name))
+
+    prop_95, _ = percent_score(null_corr, replicate_corr)
 
     return(prop_95)
 
