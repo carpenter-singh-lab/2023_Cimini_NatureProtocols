@@ -247,13 +247,14 @@ def calculate_percent_replicating_Target(batch_path,platelist,sphere=None):
 
     return(prop_95)
 
-def plot_simple_comparison(df,x,hue):
+def plot_simple_comparison(df,x,hue,order=None,hue_order=None):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
-    g = sns.catplot(data=df, x = x ,y='Percent Replicating',hue=hue,palette='Set1',
-    s=8,linewidth=1,jitter=0.25,alpha=0.9,dodge=True)
+    g = sns.catplot(data=df, x = x ,y='Percent Replicating', order=order,
+    hue=hue, hue_order=hue_order, palette='Set1',s=8,linewidth=1,jitter=0.25,
+    alpha=0.9,dodge=True)
     labels = []
-    orig_labels = set(df[x].values)
+    orig_labels = list(dict.fromkeys(df[x].values).keys())
     for label in orig_labels:
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set(ylim=([0,1]))
