@@ -85,7 +85,6 @@ def corr_between_replicates(df, group_by_feature):
             replicate_corr.append(np.nanmedian(corr))  # median replicate correlation
     return replicate_corr
 
-
 def corr_between_non_replicates(df, n_samples, n_replicates, metadata_compound_name):
     """
     Null distribution between random "replicates".
@@ -104,6 +103,139 @@ def corr_between_non_replicates(df, n_samples, n_replicates, metadata_compound_n
             sample_features = get_featuredata(sample)
             corr = np.corrcoef(sample_features)
             np.fill_diagonal(corr, np.nan)
+            null_corr.append(np.nanmedian(corr))  # median replicate correlation
+    return null_corr
+
+def corr_between_replicates_across_plates(df, reference_df):
+    items = list(df.Metadata_pert_iname.unique())
+    common_columns = [x for x in df.columns if x in reference_df.columns]
+    df = df[common_columns]
+    reference_df = reference_df[common_columns]
+    replicate_corr = []
+    for item in items:
+        compound_df = df.query('Metadata_pert_iname == @item')
+        compound_reference_df = reference_df.query('Metadata_pert_iname == @item')
+
+        compound_df_profiles = get_featuredata(compound_df).values
+        compound_reference_df_profiles = get_featuredata(compound_reference_df).values
+
+        corr = np.corrcoef(compound_df_profiles, compound_reference_df_profiles)
+        corr = corr[0:len(compound_df_profiles), len(compound_df_profiles):]
+
+        corr_median_value = np.nanmedian(corr, axis=1)
+        corr_median_value = np.nanmedian(corr_median_value)
+
+        replicate_corr.append(corr_median_value)
+    return replicate_corr
+
+def corr_between_non_replicates_across_plates(df, reference_df, n_samples):
+    np.random.seed(9000)
+    common_columns = [x for x in df.columns if x in reference_df.columns]
+    df = df[common_columns]
+    reference_df = reference_df[common_columns]
+    null_corr = []
+    compounds = list(df.Metadata_pert_iname.unique())  
+    while len(null_corr) < n_samples:
+        both_compounds = np.random.choice(compounds, size=2, replace=False)
+        compound1 = both_compounds[0]
+        compound2 = both_compounds[1]
+
+        compound1_df = df.query('Metadata_pert_iname == @compound1')
+        compound2_df = reference_df.query('Metadata_pert_iname == @compound2')
+
+        compound1_df_profiles = get_featuredata(compound1_df).values
+        compound2_df_profiles = get_featuredata(compound2_df).values
+
+        corr = np.corrcoef(compound1_df_profiles, compound2_df_profiles)
+        corr = corr[0:len(compound1_df_profiles), len(compound1_df_profiles):]
+
+        corr_median_value = np.nanmedian(corr, axis=1)
+        corr_median_value = np.nanmedian(corr_median_value)
+
+        null_corr.append(corr_median_value)
+
+    return null_corr
+
+def corr_between_compound_moa(df, metadata_moa, metadata_compound_name):
+    """
+        Correlation between compounds with the same MOA
+        Parameters:
+        -----------
+        df: pd.DataFrame
+        metadata_moa: MOA feature
+        metadata_compound_name: Compound name feature
+        Returns:
+        --------
+        list-like of correlation values
+     """
+    replicate_corr = []
+
+    profile_df = (
+        get_metadata(df)
+        .assign(profiles=list(get_featuredata(df).values))
+    )
+
+    replicate_grouped = (
+        profile_df.groupby([metadata_moa, metadata_compound_name]).profiles
+            .apply(list)
+            .reset_index()
+    )
+
+    moa_grouped = (
+        replicate_grouped.groupby([metadata_moa]).profiles
+            .apply(list)
+            .reset_index()
+    )
+
+    for i in range(len(moa_grouped)):
+        if len(moa_grouped.iloc[i].profiles) > 1:
+            compound1_profiles = moa_grouped.iloc[i].profiles[0]
+            compound2_profiles = moa_grouped.iloc[i].profiles[1]
+
+            corr = np.corrcoef(compound1_profiles, compound2_profiles)
+            corr = corr[0:len(moa_grouped.iloc[i].profiles[0]), len(moa_grouped.iloc[i].profiles[0]):]
+            # np.fill_diagonal(corr, np.nan)
+            replicate_corr.append(np.nanmedian(corr))
+
+    return replicate_corr
+
+def null_corr_between_compound_moa(df, n_samples, metadata_moa, metadata_compound_name):
+    """
+        Null distribution between random pairs of compounds.
+        Parameters:
+        ------------
+        df: pandas.DataFrame
+        n_samples: int
+        metadata_moa: MOA feature
+        metadata_compound_name: Compound name feature
+        Returns:
+        --------
+        list-like of correlation values, with a  length of `n_samples`
+    """
+    df.reset_index(drop=True, inplace=True)
+    null_corr = []
+
+    profile_df = (
+        get_metadata(df)
+        .assign(profiles=list(get_featuredata(df).values))
+    )
+
+    replicate_grouped = (
+        profile_df.groupby([metadata_moa, metadata_compound_name]).profiles
+            .apply(list)
+            .reset_index()
+    )
+
+    while len(null_corr) < n_samples:
+        compounds = random.choices([_ for _ in range(len(replicate_grouped))], k=2)
+        compound1_moa = replicate_grouped.iloc[compounds[0]].Metadata_moa
+        compound2_moa = replicate_grouped.iloc[compounds[1]].Metadata_moa
+        if compound1_moa != compound2_moa:
+            compound1_profiles = replicate_grouped.iloc[compounds[0]].profiles
+            compound2_profiles = replicate_grouped.iloc[compounds[1]].profiles
+            corr = np.corrcoef(compound1_profiles, compound2_profiles)
+            corr = corr[0:len(replicate_grouped.iloc[0].profiles), len(replicate_grouped.iloc[0].profiles):]
+            # np.fill_diagonal(corr, np.nan)
             null_corr.append(np.nanmedian(corr))  # median replicate correlation
     return null_corr
 
@@ -144,7 +276,6 @@ def correlation_between_modalities(modality_1_df, modality_2_df, modality_1, mod
                 corr_modalities.append(np.nanmedian(corr))  # median replicate correlation
 
     return corr_modalities
-
 
 def null_correlation_between_modalities(modality_1_df, modality_2_df, modality_1, modality_2, metadata_common, metadata_perturbation, n_samples):
     """
@@ -235,7 +366,6 @@ class ZCA_corr(BaseEstimator, TransformerMixin):
         X = as_float_array(X, copy=self.copy)
         return np.dot(X - self.mean_, self.sphere_.T)
 
-
 def sphere_plate_zca_corr(plate):
     """
     sphere each plate to the DMSO negative control values
@@ -281,6 +411,55 @@ def calculate_percent_replicating_MOA(batch_path,plate):
 
     replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
     null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=4, metadata_compound_name = metadata_compound_name))
+
+    prop_95, _ = percent_score(null_corr, replicate_corr)
+
+    return(prop_95)
+
+def calculate_percent_replicating_across_plates_MOA(batch_path1,plate1,batch_path2,plate2 ):
+    """
+    For plates treated with the JUMP-MOA source plates, at least 
+    4 copies of each perturbation are present on each plate.
+    Percent replicating is therefore calculated per plate.
+    """
+    metadata_compound_name = 'Metadata_pert_iname'
+    n_samples_strong = 10000
+
+    data_df1 = pd.read_csv(os.path.join(batch_path1, plate1,
+                                           plate1+'_normalized_feature_select_negcon.csv.gz'))
+    data_df1 = sphere_plate_zca_corr(data_df1)
+    data_df1 = remove_negcon_empty_wells(data_df1)
+
+    data_df2 = pd.read_csv(os.path.join(batch_path2, plate2,
+                                           plate2+'_normalized_feature_select_negcon.csv.gz'))
+    data_df2 = sphere_plate_zca_corr(data_df2)
+    data_df2 = remove_negcon_empty_wells(data_df2)
+
+    replicate_corr = corr_between_replicates_across_plates(data_df1, data_df2)
+    null_corr = corr_between_non_replicates_across_plates(data_df1, data_df2, n_samples=n_samples_strong)
+
+    prop_95, _ = percent_score(null_corr, replicate_corr)
+
+    return(prop_95)
+
+def calculate_percent_matching_MOA(batch_path,plate):
+    """
+    For plates treated with the JUMP-MOA source plates, at least 
+    4 copies of each perturbation are present on each plate.
+    Percent replicating is therefore calculated per plate.
+    """
+    metadata_moa_name = 'Metadata_moa'
+    metadata_compound_name = 'Metadata_pert_iname'
+    n_samples_strong = 10000
+    data_df = pd.read_csv(os.path.join(batch_path, plate,
+                                           plate+'_normalized_feature_select_negcon.csv.gz'))
+
+    data_df = sphere_plate_zca_corr(data_df)
+
+    data_df = remove_negcon_empty_wells(data_df)
+
+    replicate_corr = list(corr_between_compound_moa(data_df, metadata_moa_name, metadata_compound_name))
+    null_corr = list(null_corr_between_compound_moa(data_df, n_samples_strong, metadata_moa_name, metadata_compound_name))
 
     prop_95, _ = percent_score(null_corr, replicate_corr)
 
@@ -389,7 +568,10 @@ col=None, col_order=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname
     row_order = row_order, palette='Set1',s=8,linewidth=1,jitter=jitter,
     alpha=0.9,dodge=dodge)
     labels = []
-    orig_labels = list(dict.fromkeys(df[x].values).keys())
+    if not order:
+        orig_labels = list(dict.fromkeys(df[x].values).keys())
+    else:
+        orig_labels = order
     for label in orig_labels:
         if type(label)!= str:
             label = str(int(label))
