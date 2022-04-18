@@ -19,16 +19,13 @@ def get_metacols(df):
     """return a list of metadata columns"""
     return [c for c in df.columns if c.startswith("Metadata_")]
 
-
 def get_featurecols(df):
     """returna  list of featuredata columns"""
     return [c for c in df.columns if not c.startswith("Metadata")]
 
-
 def get_metadata(df):
     """return dataframe of just metadata columns"""
     return df[get_metacols(df)]
-
 
 def get_featuredata(df):
     """return dataframe of just featuredata columns"""
@@ -596,3 +593,42 @@ col=None, col_order=None,row=None,row_order=None,style=None):
     plotname = f"../figures/{x}-{y}-{hue}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
+
+def enforce_modality_match_order(modality1,modality2):
+    modality_dict_forward = {'Compounds':1,'ORF':2,'CRISPR':3}
+    modality_dict_reverse = {v:k for k,v in modality_dict_forward.items()}
+    modality_list = [modality_dict_forward[modality1],modality_dict_forward[modality2]]
+    modality_list.sort()
+    return f"{modality_dict_reverse[modality_list[0]]} - {modality_dict_reverse[modality_list[1]]}"
+
+def enforce_timepoint_order(timepoint1,timepoint2):
+    timepoint_list = [int(timepoint1),int(timepoint2)]
+    timepoint_list.sort()
+    return f"{timepoint_list[0]}-{timepoint_list[1]}"
+
+def enforce_timepoint_order_in_plot(timepointlist):
+    timepointlist=list(set(timepointlist))
+    intlist = []
+    timepoint_dict = {}
+    for x in timepointlist:
+        first,second=x.split('-')
+        intlist.append([int(first),int(second)])
+    intlist.sort()
+    outlist = []
+    for x in intlist:
+        outlist.append(f"{x[0]}-{x[1]}")
+    return outlist
+
+def enforce_modality_match_order_in_plot(modalitylist):
+    modalitylist=list(set(modalitylist))
+    modality_dict_forward = {'Compounds':1,'ORF':2,'CRISPR':3}
+    modality_dict_reverse = {v:k for k,v in modality_dict_forward.items()}
+    master_modalitylist = []
+    for eachpair in modalitylist:
+        modality1,modality2 = eachpair.split(' - ')
+        sublist = [modality_dict_forward[modality1],modality_dict_forward[modality2]]
+        sublist.sort()
+        master_modalitylist.append(sublist)
+    master_modalitylist.sort()
+    outlist = [f"{modality_dict_reverse[x[0]]} - {modality_dict_reverse[x[1]]}" for x in master_modalitylist]    
+    return outlist
