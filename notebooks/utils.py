@@ -396,7 +396,9 @@ col=None, col_order=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set(ylim=([0,1]))
     g.set_xticklabels(labels=labels,rotation=0)
-    if not plotname:
+    if plotname:
+        plotname = f"../figures/{plotname}"
+    else:
         plotname = f"../figures/{x}-{hue}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
