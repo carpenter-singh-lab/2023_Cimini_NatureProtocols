@@ -286,7 +286,8 @@ def calculate_percent_replicating_MOA(batch_path,plate):
 
     return(prop_95)
 
-def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
+def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,
+suffix = '_normalized_feature_select_negcon.csv.gz',n_replicates=4):
     """
     For plates treated with the JUMP-Target source plates, most 
     perturbations are only present in one or two 2 copies per plate. 
@@ -323,7 +324,7 @@ def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,suffix
     data_df = remove_negcon_empty_wells(data_df)
 
     replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
-    null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=len(platelist), metadata_compound_name = metadata_compound_name))
+    null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=n_replicates, metadata_compound_name = metadata_compound_name))
 
     prop_95, _ = percent_score(null_corr, replicate_corr)
 
