@@ -558,7 +558,7 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
 
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
 col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
-ylim=None):
+ylim=None, title=None):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
@@ -576,31 +576,57 @@ ylim=None):
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set_xticklabels(labels=labels,rotation=0)
     if ylim:
-        g.set(ylim=(ylim))
+        ymin,ymax=ylim
     else:
-        g.set(ylim=([0.5,1]))    
+        ymin = 0.5
+        ymax = 0.8 
+    if df[y].min()<ymin:
+        ymin = df[y].min()
+    if df[y].max()>ymax:
+        ymax = df[y].max()
+    g.set(ylim=([ymin,ymax]))    
     if plotname:
         plotname = f"../figures/{plotname}"
     else:
         plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
+    if title:
+        g.set(title=title)
+    else:
+        g.set(title=f"{x}-{y}")
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
 def plot_two_comparisons(df,x='Percent Replicating',y='Percent Matching',hue = None, hue_order=None,
-col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=None,ylim=[0,0.5]):
+col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=None,ylim=None,title=None,
+title_variable = None):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
     col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60)
     if xlim:
-        g.set(xlim=(xlim))
+        xmin,xmax=xlim
     else:
-        g.set(xlim=([0.5,1]))
+        xmin = 0.5
+        xmax = 0.8 
+    if df[x].min()<xmin:
+        xmin = df[x].min()
+    if df[x].max()>xmax:
+        xmax = df[x].max()
+    g.set(xlim=([xmin,xmax]))  
     if ylim:
-        g.set(ylim=(ylim))
+        ymin,ymax=ylim
     else:
-        g.set(ylim=([0,0.5]))
-    
+        ymin = 0.05
+        ymax = 0.4 
+    if df[y].min()<ymin:
+        ymin = df[y].min()
+    if df[y].max()>ymax:
+        ymax = df[y].max()
+    g.set(ylim=([ymin,ymax]))
+    if title:
+        g.set(title=title)
+    elif title_variable:
+        g.set(title=title_variable)
     plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
