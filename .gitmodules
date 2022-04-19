@@ -4,3 +4,6 @@
 [submodule "profiles-pilots"]
 	path = profiles-pilots
 	url = https://github.com/jump-cellpainting/pilot-data-public.git
+[submodule "profiles-cp-jump1-fov"]
+	path = profiles-cp-jump1-fov
+	url = https://github.com/jump-cellpainting/pilot-cpjump1-fov-data.git
