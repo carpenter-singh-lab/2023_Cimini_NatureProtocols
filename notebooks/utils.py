@@ -589,10 +589,12 @@ ylim=None, title=None):
         plotname = f"../figures/{plotname}"
     else:
         plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
-    if title:
-        g.set(title=title)
-    else:
-        g.set(title=f"{x}-{y}")
+    if not col:
+        if not row:
+            if title:
+                g.set(title=title)
+            else:
+                g.set(title=f"{x}-{y}")
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
