@@ -576,7 +576,7 @@ ylim=None):
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
     g.set_xticklabels(labels=labels,rotation=0)
     if ylim:
-        g.set(ylim=([ylim]))
+        g.set(ylim=(ylim))
     else:
         g.set(ylim=([0.5,1]))    
     if plotname:
@@ -593,11 +593,11 @@ col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=N
     g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
     col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60)
     if xlim:
-        g.set(xlim=([xlim]))
+        g.set(xlim=(xlim))
     else:
         g.set(xlim=([0.5,1]))
     if ylim:
-        g.set(ylim=([ylim]))
+        g.set(ylim=(ylim))
     else:
         g.set(ylim=([0,0.5]))
     
