@@ -557,7 +557,8 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
     return(prop_95)
 
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
-col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None):
+col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
+ylim=None):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
@@ -573,24 +574,34 @@ col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodg
         if type(label)!= str:
             label = str(int(label))
         labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
-    g.set(ylim=([0,1]))
     g.set_xticklabels(labels=labels,rotation=0)
+    if ylim:
+        g.set(ylim=([ylim]))
+    else:
+        g.set(ylim=([0.5,1]))    
     if plotname:
         plotname = f"../figures/{plotname}"
     else:
-        plotname = f"../figures/{x}-{hue}.png"
+        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
 def plot_two_comparisons(df,x='Percent Replicating',y='Percent Matching',hue = None, hue_order=None,
-col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None):
+col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=None,ylim=[0,0.5]):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
     col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60)
-    g.set(xlim=([0,1]))
-    g.set(ylim=([0,1]))
-    plotname = f"../figures/{x}-{y}-{hue}.png"
+    if xlim:
+        g.set(xlim=([xlim]))
+    else:
+        g.set(xlim=([0.5,1]))
+    if ylim:
+        g.set(ylim=([ylim]))
+    else:
+        g.set(ylim=([0,0.5]))
+    
+    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
