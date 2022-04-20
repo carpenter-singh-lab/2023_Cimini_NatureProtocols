@@ -558,7 +558,7 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
 
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
 col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
-ylim=None, title=None,aspect=None):
+ylim=None, title=None,aspect=1):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
