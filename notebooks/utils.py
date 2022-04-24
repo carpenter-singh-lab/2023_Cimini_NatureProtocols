@@ -103,53 +103,57 @@ def corr_between_non_replicates(df, n_samples, n_replicates, metadata_compound_n
             null_corr.append(np.nanmedian(corr))  # median replicate correlation
     return null_corr
 
-def corr_between_replicates_across_plates(df, reference_df):
-    items = list(df.Metadata_pert_iname.unique())
+def corr_between_replicates_across_plates(df, reference_df, pertcol = 'Metadata_pert_iname'):
+    items = list(df[pertcol].unique())
     common_columns = [x for x in df.columns if x in reference_df.columns]
     df = df[common_columns]
     reference_df = reference_df[common_columns]
     replicate_corr = []
     for item in items:
-        compound_df = df.query('Metadata_pert_iname == @item')
-        compound_reference_df = reference_df.query('Metadata_pert_iname == @item')
+        compound_df = df.query(pertcol+' == @item')
+        compound_reference_df = reference_df.query(pertcol+' == @item')
 
         compound_df_profiles = get_featuredata(compound_df).values
         compound_reference_df_profiles = get_featuredata(compound_reference_df).values
+        try:
+            corr = np.corrcoef(compound_df_profiles, compound_reference_df_profiles)
+            corr = corr[0:len(compound_df_profiles), len(compound_df_profiles):]
 
-        corr = np.corrcoef(compound_df_profiles, compound_reference_df_profiles)
-        corr = corr[0:len(compound_df_profiles), len(compound_df_profiles):]
+            corr_median_value = np.nanmedian(corr, axis=1)
+            corr_median_value = np.nanmedian(corr_median_value)
 
-        corr_median_value = np.nanmedian(corr, axis=1)
-        corr_median_value = np.nanmedian(corr_median_value)
-
-        replicate_corr.append(corr_median_value)
+            replicate_corr.append(corr_median_value)
+        except:
+            print(item,corr)
     return replicate_corr
 
-def corr_between_non_replicates_across_plates(df, reference_df, n_samples):
+def corr_between_non_replicates_across_plates(df, reference_df, n_samples, pertcol = 'Metadata_pert_iname'):
     np.random.seed(9000)
     common_columns = [x for x in df.columns if x in reference_df.columns]
     df = df[common_columns]
     reference_df = reference_df[common_columns]
     null_corr = []
-    compounds = list(df.Metadata_pert_iname.unique())  
+    compounds = list(df[pertcol].unique())  
     while len(null_corr) < n_samples:
         both_compounds = np.random.choice(compounds, size=2, replace=False)
         compound1 = both_compounds[0]
         compound2 = both_compounds[1]
 
-        compound1_df = df.query('Metadata_pert_iname == @compound1')
-        compound2_df = reference_df.query('Metadata_pert_iname == @compound2')
+        compound1_df = df.query(pertcol+' == @compound1')
+        compound2_df = reference_df.query(pertcol+' == @compound2')
 
         compound1_df_profiles = get_featuredata(compound1_df).values
         compound2_df_profiles = get_featuredata(compound2_df).values
+        try:
+            corr = np.corrcoef(compound1_df_profiles, compound2_df_profiles)
+            corr = corr[0:len(compound1_df_profiles), len(compound1_df_profiles):]
 
-        corr = np.corrcoef(compound1_df_profiles, compound2_df_profiles)
-        corr = corr[0:len(compound1_df_profiles), len(compound1_df_profiles):]
+            corr_median_value = np.nanmedian(corr, axis=1)
+            corr_median_value = np.nanmedian(corr_median_value)
 
-        corr_median_value = np.nanmedian(corr, axis=1)
-        corr_median_value = np.nanmedian(corr_median_value)
-
-        null_corr.append(corr_median_value)
+            null_corr.append(corr_median_value)
+        except:
+            pass
 
     return null_corr
 
@@ -501,6 +505,28 @@ suffix = '_normalized_feature_select_negcon.csv.gz',n_replicates=4):
 
     replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
     null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=n_replicates, metadata_compound_name = metadata_compound_name))
+
+    prop_95, _ = percent_score(null_corr, replicate_corr)
+
+    return(prop_95)
+
+def calculate_percent_replicating_across_plates_Target(batch_path1,plate1,batch_path2,plate2 ):
+    """
+    For Target 1 vs Target 2
+    """
+    metadata_compound_name = 'Metadata_broad_sample'
+    n_samples_strong = 10000
+
+    data_df1 = pd.read_csv(os.path.join(batch_path1, plate1,
+                                           plate1+'_normalized_feature_select_negcon.csv.gz'))
+    data_df1 = remove_negcon_empty_wells(data_df1)
+
+    data_df2 = pd.read_csv(os.path.join(batch_path2, plate2,
+                                           plate2+'_normalized_feature_select_negcon.csv.gz'))
+    data_df2 = remove_negcon_empty_wells(data_df2)
+
+    replicate_corr = corr_between_replicates_across_plates(data_df1, data_df2,pertcol=metadata_compound_name)
+    null_corr = corr_between_non_replicates_across_plates(data_df1, data_df2, n_samples=n_samples_strong,pertcol=metadata_compound_name)
 
     prop_95, _ = percent_score(null_corr, replicate_corr)
 
