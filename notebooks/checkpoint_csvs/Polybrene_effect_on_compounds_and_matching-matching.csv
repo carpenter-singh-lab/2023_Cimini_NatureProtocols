@@ -1,0 +1,7 @@
+Percent Matching,Modality Match,Treatment timepoint,Polybrene effect on compounds and matching
+0.39464882943143814,Compounds - Compounds,48-48,Target2 - Target2 + Polybrene
+0.13071895424836602,Compounds - ORF,48-48,Target2 - ORF
+0.12418300653594772,Compounds - ORF,48-96,Target2 - ORF
+0.08496732026143791,Compounds - ORF,48-48,Target2 + Polybrene - ORF
+0.10784313725490197,Compounds - ORF,48-96,Target2 + Polybrene - ORF
+0.5,ORF - ORF,48-96,ORF - ORF
