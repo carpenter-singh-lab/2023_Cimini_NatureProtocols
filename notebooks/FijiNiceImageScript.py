@@ -79,7 +79,7 @@ else:
             IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
         else:
             IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("Tiff",os.path.join(output_path,batch+'-'+plate+'.tiff'))
+        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'.png'))
     else:
         #start of Magic Montage code - https://wsr.imagej.net/macros/toolsets/Magic%20Montage.txt
         b=im.bitDepth
@@ -109,11 +109,11 @@ else:
             IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
         else:
             IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("Tiff",os.path.join(output_path,batch+'-'+plate+'_montage.tiff'))
+        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'_montage.png'))
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite (RGB)"))
         if bin ==2:
             IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
         else:
             IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("Tiff",os.path.join(output_path,batch+'-'+plate+'.tiff'))
+        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'.png'))
     IJ.run("Close All")
