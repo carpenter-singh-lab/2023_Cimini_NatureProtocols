@@ -607,9 +607,9 @@ ylim=None, title=None,aspect=1):
         ymin = 0.5
         ymax = 0.8 
     if df[y].min()<ymin:
-        ymin = df[y].min()
+        ymin = df[y].min()-0.02
     if df[y].max()>ymax:
-        ymax = df[y].max()
+        ymax = df[y].max()+0.02
     g.set(ylim=([ymin,ymax]))    
     if plotname:
         plotname = f"../figures/{plotname}"
@@ -637,9 +637,9 @@ title_variable = None):
         xmin = 0.5
         xmax = 0.8 
     if df[x].min()<xmin:
-        xmin = df[x].min()
+        xmin = df[x].min()-0.02
     if df[x].max()>xmax:
-        xmax = df[x].max()
+        xmax = df[x].max()+0.02
     g.set(xlim=([xmin,xmax]))  
     if ylim:
         ymin,ymax=ylim
@@ -647,9 +647,9 @@ title_variable = None):
         ymin = 0.05
         ymax = 0.4 
     if df[y].min()<ymin:
-        ymin = df[y].min()
+        ymin = df[y].min()-0.02
     if df[y].max()>ymax:
-        ymax = df[y].max()
+        ymax = df[y].max()+0.02
     g.set(ylim=([ymin,ymax]))
     if title:
         g.set(title=title)
