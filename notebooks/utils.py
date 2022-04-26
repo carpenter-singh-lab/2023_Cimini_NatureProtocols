@@ -395,7 +395,7 @@ def sphere_plate_zca_corr(plate):
     assert combined.shape == plate.shape
     return combined
 
-def calculate_percent_replicating_MOA(batch_path,plate):
+def calculate_percent_replicating_MOA(batch_path,plate,data_df=None):
     """
     For plates treated with the JUMP-MOA source plates, at least 
     4 copies of each perturbation are present on each plate.
@@ -403,8 +403,9 @@ def calculate_percent_replicating_MOA(batch_path,plate):
     """
     metadata_compound_name = 'Metadata_pert_iname'
     n_samples_strong = 10000
-    data_df = pd.read_csv(os.path.join(batch_path, plate,
-                                           plate+'_normalized_feature_select_negcon.csv.gz'))
+    if type(data_df)!=pd.DataFrame:
+        data_df = pd.read_csv(os.path.join(batch_path, plate,
+                                            plate+'_normalized_feature_select_negcon.csv.gz'))
 
     data_df = sphere_plate_zca_corr(data_df)
 
@@ -584,23 +585,24 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
 
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
 col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
-ylim=None, title=None,aspect=1):
+ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
     hue=hue, hue_order=hue_order, col=col, col_order = col_order, col_wrap=col_wrap,row=row,
     row_order = row_order, palette='Set1',s=8,linewidth=1,jitter=jitter,
-    alpha=0.9,dodge=dodge,aspect=aspect)
-    labels = []
-    if not order:
-        orig_labels = list(dict.fromkeys(df[x].values).keys())
-    else:
-        orig_labels = order
-    for label in orig_labels:
-        if type(label)!= str:
-            label = str(int(label))
-        labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
-    g.set_xticklabels(labels=labels,rotation=0)
+    alpha=0.9,dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws)
+    if sharex:
+        labels = []
+        if not order:
+            orig_labels = list(dict.fromkeys(df[x].values).keys())
+        else:
+            orig_labels = order
+        for label in orig_labels:
+            if type(label)!= str:
+                label = str(int(label))
+            labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
+        g.set_xticklabels(labels=labels,rotation=0)
     if ylim:
         ymin,ymax=ylim
     else:
@@ -626,11 +628,12 @@ ylim=None, title=None,aspect=1):
 
 def plot_two_comparisons(df,x='Percent Replicating',y='Percent Matching',hue = None, hue_order=None,
 col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=None,ylim=None,title=None,
-title_variable = None):
+title_variable = None, facet_kws={'sharex':True}):
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
-    col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60)
+    col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60,
+    facet_kws=facet_kws)
     if xlim:
         xmin,xmax=xlim
     else:
@@ -655,7 +658,7 @@ title_variable = None):
         g.set(title=title)
     elif title_variable:
         g.set(title=title_variable)
-    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
+    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}-{style}.png"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
