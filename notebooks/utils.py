@@ -11,6 +11,7 @@ from sklearn.utils.validation import check_is_fitted
 from sklearn.utils import check_array, as_float_array
 from sklearn.base import TransformerMixin, BaseEstimator
 import kneed
+import matplotlib.pyplot as plt
 import seaborn as sns
 
 random.seed(9000)
@@ -51,17 +52,17 @@ def percent_score(null_dist, corr_dist, how='right'):
     if how == 'right':
         perc_95 = np.nanpercentile(null_dist, 95)
         above_threshold = corr_dist > perc_95
-        return np.mean(above_threshold.astype(float)), perc_95
+        return 100 * np.mean(above_threshold.astype(float)), perc_95
     if how == 'left':
         perc_5 = np.nanpercentile(null_dist, 5)
         below_threshold = corr_dist < perc_5
-        return np.mean(below_threshold.astype(float)), perc_5
+        return 100 * np.mean(below_threshold.astype(float)), perc_5
     if how == 'both':
         perc_95 = np.nanpercentile(null_dist, 95)
         above_threshold = corr_dist > perc_95
         perc_5 = np.nanpercentile(null_dist, 5)
         below_threshold = corr_dist < perc_5
-        return np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float)), perc_95, perc_5
+        return 100 * np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float)), perc_95, perc_5
     
 def corr_between_replicates(df, group_by_feature):
     """
@@ -586,12 +587,13 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
 col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
 ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
+    plt.rcParams["legend.markerscale"] =1.5
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
     hue=hue, hue_order=hue_order, col=col, col_order = col_order, col_wrap=col_wrap,row=row,
-    row_order = row_order, palette='Set1',s=8,linewidth=1,jitter=jitter,
-    alpha=0.9,dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws)
+    row_order = row_order, palette='Set1',s=12,linewidth=1,jitter=jitter,
+    alpha=0.8,dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws)
     if sharex:
         labels = []
         if not order:
@@ -606,12 +608,12 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     if ylim:
         ymin,ymax=ylim
     else:
-        ymin = 0.5
-        ymax = 0.8 
+        ymin = 50
+        ymax = 80 
     if df[y].min()<ymin:
-        ymin = df[y].min()-0.02
+        ymin = df[y].min()-2
     if df[y].max()>ymax:
-        ymax = df[y].max()+0.02
+        ymax = df[y].max()+2
     g.set(ylim=([ymin,ymax]))    
     if plotname:
         plotname = f"../figures/{plotname}"
@@ -629,30 +631,31 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
 def plot_two_comparisons(df,x='Percent Replicating',y='Percent Matching',hue = None, hue_order=None,
 col=None, col_order=None,col_wrap=None,row=None,row_order=None,style=None,xlim=None,ylim=None,title=None,
 title_variable = None, facet_kws={'sharex':True}):
+    plt.rcParams["legend.markerscale"] =1.5
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
     g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
-    col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.9,s=60,
+    col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.8,s=80,
     facet_kws=facet_kws)
     if xlim:
         xmin,xmax=xlim
     else:
-        xmin = 0.5
-        xmax = 0.8 
+        xmin = 50
+        xmax = 80
     if df[x].min()<xmin:
-        xmin = df[x].min()-0.02
+        xmin = df[x].min()-2
     if df[x].max()>xmax:
-        xmax = df[x].max()+0.02
+        xmax = df[x].max()+2
     g.set(xlim=([xmin,xmax]))  
     if ylim:
         ymin,ymax=ylim
     else:
-        ymin = 0.05
-        ymax = 0.4 
+        ymin = 5
+        ymax = 40 
     if df[y].min()<ymin:
-        ymin = df[y].min()-0.02
+        ymin = df[y].min()-2
     if df[y].max()>ymax:
-        ymax = df[y].max()+0.02
+        ymax = df[y].max()+2
     g.set(ylim=([ymin,ymax]))
     if title:
         g.set(title=title)
