@@ -1,89 +1,89 @@
 Percent Replicating,Density,Clone type,Cell Type
-0.5111111111111111,Lower-Higher,Parental-Parental,A549
-0.5444444444444444,Lower-Higher,Parental-Parental,A549
-0.4888888888888889,Lower-Higher,Parental-Parental,A549
-0.4777777777777778,Lower-Lower,Parental-Polyclonal,A549
-0.4666666666666667,Lower-Lower,Parental-Polyclonal,A549
-0.45555555555555555,Lower-Lower,Parental-Polyclonal,A549
-0.3888888888888889,Lower-Higher,Parental-Polyclonal,A549
-0.4888888888888889,Lower-Higher,Parental-Polyclonal,A549
-0.4222222222222222,Lower-Higher,Parental-Polyclonal,A549
-0.5222222222222223,Higher-Lower,Parental-Polyclonal,A549
-0.4666666666666667,Higher-Higher,Parental-Polyclonal,A549
-0.4,Lower-Lower,Parental-Monoclonal 1,A549
-0.45555555555555555,Lower-Lower,Parental-Monoclonal 1,A549
-0.4,Lower-Lower,Parental-Monoclonal 1,A549
-0.4222222222222222,Lower-Higher,Parental-Monoclonal 1,A549
-0.4111111111111111,Lower-Higher,Parental-Monoclonal 1,A549
-0.36666666666666664,Lower-Higher,Parental-Monoclonal 1,A549
-0.4888888888888889,Higher-Lower,Parental-Monoclonal 1,A549
-0.3888888888888889,Higher-Higher,Parental-Monoclonal 1,A549
-0.5,Lower-Lower,Parental-Monoclonal 2,A549
-0.5444444444444444,Lower-Lower,Parental-Monoclonal 2,A549
-0.4888888888888889,Lower-Lower,Parental-Monoclonal 2,A549
-0.43333333333333335,Lower-Higher,Parental-Monoclonal 2,A549
-0.4222222222222222,Lower-Higher,Parental-Monoclonal 2,A549
-0.4111111111111111,Lower-Higher,Parental-Monoclonal 2,A549
-0.4888888888888889,Higher-Lower,Parental-Monoclonal 2,A549
-0.4777777777777778,Higher-Higher,Parental-Monoclonal 2,A549
-0.5,Lower-Lower,Parental-Monoclonal 3,A549
-0.5,Lower-Lower,Parental-Monoclonal 3,A549
-0.4,Lower-Lower,Parental-Monoclonal 3,A549
-0.4666666666666667,Lower-Higher,Parental-Monoclonal 3,A549
-0.4666666666666667,Lower-Higher,Parental-Monoclonal 3,A549
-0.45555555555555555,Lower-Higher,Parental-Monoclonal 3,A549
-0.4777777777777778,Higher-Lower,Parental-Monoclonal 3,A549
-0.5333333333333333,Higher-Higher,Parental-Monoclonal 3,A549
-0.4666666666666667,Lower-Higher,Polyclonal-Polyclonal,A549
-0.4,Lower-Lower,Polyclonal-Monoclonal 1,A549
-0.4444444444444444,Lower-Higher,Polyclonal-Monoclonal 1,A549
-0.3888888888888889,Higher-Lower,Polyclonal-Monoclonal 1,A549
-0.4,Higher-Higher,Polyclonal-Monoclonal 1,A549
-0.4444444444444444,Lower-Lower,Polyclonal-Monoclonal 2,A549
-0.4888888888888889,Lower-Higher,Polyclonal-Monoclonal 2,A549
-0.4444444444444444,Higher-Lower,Polyclonal-Monoclonal 2,A549
-0.43333333333333335,Higher-Higher,Polyclonal-Monoclonal 2,A549
-0.4444444444444444,Lower-Lower,Polyclonal-Monoclonal 3,A549
-0.5222222222222223,Lower-Higher,Polyclonal-Monoclonal 3,A549
-0.43333333333333335,Higher-Lower,Polyclonal-Monoclonal 3,A549
-0.5111111111111111,Higher-Higher,Polyclonal-Monoclonal 3,A549
-0.5666666666666667,Lower-Higher,Monoclonal 1-Monoclonal 1,A549
-0.5777777777777777,Lower-Lower,Monoclonal 1-Monoclonal 2,A549
-0.6,Lower-Higher,Monoclonal 1-Monoclonal 2,A549
-0.5555555555555556,Higher-Lower,Monoclonal 1-Monoclonal 2,A549
-0.5333333333333333,Higher-Higher,Monoclonal 1-Monoclonal 2,A549
-0.4222222222222222,Lower-Lower,Monoclonal 1-Monoclonal 3,A549
-0.45555555555555555,Lower-Higher,Monoclonal 1-Monoclonal 3,A549
-0.4444444444444444,Higher-Lower,Monoclonal 1-Monoclonal 3,A549
-0.3888888888888889,Higher-Higher,Monoclonal 1-Monoclonal 3,A549
-0.6111111111111112,Lower-Higher,Monoclonal 2-Monoclonal 2,A549
-0.43333333333333335,Lower-Lower,Monoclonal 2-Monoclonal 3,A549
-0.5555555555555556,Lower-Higher,Monoclonal 2-Monoclonal 3,A549
-0.45555555555555555,Higher-Lower,Monoclonal 2-Monoclonal 3,A549
-0.5,Higher-Higher,Monoclonal 2-Monoclonal 3,A549
-0.5333333333333333,Lower-Higher,Monoclonal 3-Monoclonal 3,A549
-0.5,Lower-Higher,Parental-Parental,U2OS
-0.5056179775280899,Lower-Higher,Parental-Parental,U2OS
-0.5333333333333333,Lower-Higher,Parental-Parental,U2OS
-0.5222222222222223,Lower-Lower,Parental-Polyclonal,U2OS
-0.5393258426966292,Lower-Lower,Parental-Polyclonal,U2OS
-0.4777777777777778,Lower-Lower,Parental-Polyclonal,U2OS
-0.5444444444444444,Lower-Higher,Parental-Polyclonal,U2OS
-0.5168539325842697,Lower-Higher,Parental-Polyclonal,U2OS
-0.5222222222222223,Lower-Higher,Parental-Polyclonal,U2OS
-0.4666666666666667,Higher-Lower,Parental-Polyclonal,U2OS
-0.5333333333333333,Higher-Higher,Parental-Polyclonal,U2OS
-0.4111111111111111,Lower-Lower,Parental-Monoclonal 1,U2OS
-0.4044943820224719,Lower-Lower,Parental-Monoclonal 1,U2OS
-0.36666666666666664,Lower-Lower,Parental-Monoclonal 1,U2OS
-0.3888888888888889,Lower-Higher,Parental-Monoclonal 1,U2OS
-0.3707865168539326,Lower-Higher,Parental-Monoclonal 1,U2OS
-0.37777777777777777,Lower-Higher,Parental-Monoclonal 1,U2OS
-0.36666666666666664,Higher-Lower,Parental-Monoclonal 1,U2OS
-0.3333333333333333,Higher-Higher,Parental-Monoclonal 1,U2OS
-0.47191011235955055,Lower-Higher,Polyclonal-Polyclonal,U2OS
-0.39325842696629215,Lower-Lower,Polyclonal-Monoclonal 1,U2OS
-0.39325842696629215,Lower-Higher,Polyclonal-Monoclonal 1,U2OS
-0.33707865168539325,Higher-Lower,Polyclonal-Monoclonal 1,U2OS
-0.38202247191011235,Higher-Higher,Polyclonal-Monoclonal 1,U2OS
-0.5111111111111111,Lower-Higher,Monoclonal 1-Monoclonal 1,U2OS
+51.11111111111111,Lower-Higher,Parental-Parental,A549
+54.44444444444444,Lower-Higher,Parental-Parental,A549
+48.888888888888886,Lower-Higher,Parental-Parental,A549
+47.77777777777778,Lower-Lower,Parental-Polyclonal,A549
+46.666666666666664,Lower-Lower,Parental-Polyclonal,A549
+45.55555555555556,Lower-Lower,Parental-Polyclonal,A549
+38.88888888888889,Lower-Higher,Parental-Polyclonal,A549
+48.888888888888886,Lower-Higher,Parental-Polyclonal,A549
+42.22222222222222,Lower-Higher,Parental-Polyclonal,A549
+52.22222222222223,Higher-Lower,Parental-Polyclonal,A549
+46.666666666666664,Higher-Higher,Parental-Polyclonal,A549
+40.0,Lower-Lower,Parental-Monoclonal 1,A549
+45.55555555555556,Lower-Lower,Parental-Monoclonal 1,A549
+40.0,Lower-Lower,Parental-Monoclonal 1,A549
+42.22222222222222,Lower-Higher,Parental-Monoclonal 1,A549
+41.11111111111111,Lower-Higher,Parental-Monoclonal 1,A549
+36.666666666666664,Lower-Higher,Parental-Monoclonal 1,A549
+48.888888888888886,Higher-Lower,Parental-Monoclonal 1,A549
+38.88888888888889,Higher-Higher,Parental-Monoclonal 1,A549
+50.0,Lower-Lower,Parental-Monoclonal 2,A549
+54.44444444444444,Lower-Lower,Parental-Monoclonal 2,A549
+48.888888888888886,Lower-Lower,Parental-Monoclonal 2,A549
+43.333333333333336,Lower-Higher,Parental-Monoclonal 2,A549
+42.22222222222222,Lower-Higher,Parental-Monoclonal 2,A549
+41.11111111111111,Lower-Higher,Parental-Monoclonal 2,A549
+48.888888888888886,Higher-Lower,Parental-Monoclonal 2,A549
+47.77777777777778,Higher-Higher,Parental-Monoclonal 2,A549
+50.0,Lower-Lower,Parental-Monoclonal 3,A549
+50.0,Lower-Lower,Parental-Monoclonal 3,A549
+40.0,Lower-Lower,Parental-Monoclonal 3,A549
+46.666666666666664,Lower-Higher,Parental-Monoclonal 3,A549
+46.666666666666664,Lower-Higher,Parental-Monoclonal 3,A549
+45.55555555555556,Lower-Higher,Parental-Monoclonal 3,A549
+47.77777777777778,Higher-Lower,Parental-Monoclonal 3,A549
+53.333333333333336,Higher-Higher,Parental-Monoclonal 3,A549
+46.666666666666664,Lower-Higher,Polyclonal-Polyclonal,A549
+40.0,Lower-Lower,Polyclonal-Monoclonal 1,A549
+44.44444444444444,Lower-Higher,Polyclonal-Monoclonal 1,A549
+38.88888888888889,Higher-Lower,Polyclonal-Monoclonal 1,A549
+40.0,Higher-Higher,Polyclonal-Monoclonal 1,A549
+44.44444444444444,Lower-Lower,Polyclonal-Monoclonal 2,A549
+48.888888888888886,Lower-Higher,Polyclonal-Monoclonal 2,A549
+44.44444444444444,Higher-Lower,Polyclonal-Monoclonal 2,A549
+43.333333333333336,Higher-Higher,Polyclonal-Monoclonal 2,A549
+44.44444444444444,Lower-Lower,Polyclonal-Monoclonal 3,A549
+52.22222222222223,Lower-Higher,Polyclonal-Monoclonal 3,A549
+43.333333333333336,Higher-Lower,Polyclonal-Monoclonal 3,A549
+51.11111111111111,Higher-Higher,Polyclonal-Monoclonal 3,A549
+56.666666666666664,Lower-Higher,Monoclonal 1-Monoclonal 1,A549
+57.77777777777777,Lower-Lower,Monoclonal 1-Monoclonal 2,A549
+60.0,Lower-Higher,Monoclonal 1-Monoclonal 2,A549
+55.55555555555556,Higher-Lower,Monoclonal 1-Monoclonal 2,A549
+53.333333333333336,Higher-Higher,Monoclonal 1-Monoclonal 2,A549
+42.22222222222222,Lower-Lower,Monoclonal 1-Monoclonal 3,A549
+45.55555555555556,Lower-Higher,Monoclonal 1-Monoclonal 3,A549
+44.44444444444444,Higher-Lower,Monoclonal 1-Monoclonal 3,A549
+38.88888888888889,Higher-Higher,Monoclonal 1-Monoclonal 3,A549
+61.111111111111114,Lower-Higher,Monoclonal 2-Monoclonal 2,A549
+43.333333333333336,Lower-Lower,Monoclonal 2-Monoclonal 3,A549
+55.55555555555556,Lower-Higher,Monoclonal 2-Monoclonal 3,A549
+45.55555555555556,Higher-Lower,Monoclonal 2-Monoclonal 3,A549
+50.0,Higher-Higher,Monoclonal 2-Monoclonal 3,A549
+53.333333333333336,Lower-Higher,Monoclonal 3-Monoclonal 3,A549
+50.0,Lower-Higher,Parental-Parental,U2OS
+50.56179775280899,Lower-Higher,Parental-Parental,U2OS
+53.333333333333336,Lower-Higher,Parental-Parental,U2OS
+52.22222222222223,Lower-Lower,Parental-Polyclonal,U2OS
+53.93258426966292,Lower-Lower,Parental-Polyclonal,U2OS
+47.77777777777778,Lower-Lower,Parental-Polyclonal,U2OS
+54.44444444444444,Lower-Higher,Parental-Polyclonal,U2OS
+51.68539325842697,Lower-Higher,Parental-Polyclonal,U2OS
+52.22222222222223,Lower-Higher,Parental-Polyclonal,U2OS
+46.666666666666664,Higher-Lower,Parental-Polyclonal,U2OS
+53.333333333333336,Higher-Higher,Parental-Polyclonal,U2OS
+41.11111111111111,Lower-Lower,Parental-Monoclonal 1,U2OS
+40.44943820224719,Lower-Lower,Parental-Monoclonal 1,U2OS
+36.666666666666664,Lower-Lower,Parental-Monoclonal 1,U2OS
+38.88888888888889,Lower-Higher,Parental-Monoclonal 1,U2OS
+37.07865168539326,Lower-Higher,Parental-Monoclonal 1,U2OS
+37.77777777777778,Lower-Higher,Parental-Monoclonal 1,U2OS
+36.666666666666664,Higher-Lower,Parental-Monoclonal 1,U2OS
+33.33333333333333,Higher-Higher,Parental-Monoclonal 1,U2OS
+47.19101123595505,Lower-Higher,Polyclonal-Polyclonal,U2OS
+39.325842696629216,Lower-Lower,Polyclonal-Monoclonal 1,U2OS
+39.325842696629216,Lower-Higher,Polyclonal-Monoclonal 1,U2OS
+33.70786516853933,Higher-Lower,Polyclonal-Monoclonal 1,U2OS
+38.20224719101123,Higher-Higher,Polyclonal-Monoclonal 1,U2OS
+51.11111111111111,Lower-Higher,Monoclonal 1-Monoclonal 1,U2OS
