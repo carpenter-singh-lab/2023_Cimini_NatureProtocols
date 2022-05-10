@@ -584,6 +584,68 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
 
     return(prop_95)
 
+def calculate_percent_matching_with_feature_dropout_Target(batch_path_1,platelist_1,modality_1, batch_path_2,platelist_2, modality_2,
+sphere=None,suffix = '_normalized_negcon.csv.gz',drop='AGP'):
+    """
+
+    It doesn't look like sphering was done consistently in previous 
+    analysis of these plates, therefore it is configurable here; either 
+    not done, done at the plate level by passing 'sphere=plate', or 
+    done at the batch level by passing 'sphere=batch'.
+    """
+    import pycytominer
+    n_samples = 10000
+
+    data_dict_1 = {}
+    for plate in platelist_1:
+        plate_df = pd.read_csv(os.path.join(batch_path_1, plate,
+                                            plate+suffix))
+        cols_to_drop = [x for x in plate_df.columns if drop in x]
+        plate_df.drop(columns=cols_to_drop,inplace=True)
+        feature_select_features = pycytominer.cyto_utils.infer_cp_features(
+        plate_df
+        )
+        plate_df = pycytominer.feature_select(
+        profiles=plate_df,
+        features=feature_select_features,
+        operation=['variance_threshold','correlation_threshold',
+        'drop_na_columns','blocklist']
+        )
+        if sphere == 'plate':
+            plate_df = sphere_plate_zca_corr(plate_df)
+
+        data_dict_1[plate] = plate_df   
+    data_df_1 = pd.concat(data_dict_1, join='inner', ignore_index=True)
+    if modality_1 =='Compounds':
+        data_df_1.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
+    data_df_1['Metadata_modality'] = modality_1
+    if sphere == 'batch':
+        data_df_1 = sphere_plate_zca_corr(data_df_1)
+    data_df_1 = remove_negcon_empty_wells(data_df_1)
+
+    data_dict_2 = {}
+    for plate in platelist_2:
+        plate_df = pd.read_csv(os.path.join(batch_path_2, plate,
+                                            plate+suffix))
+        if sphere == 'plate':
+            plate_df = sphere_plate_zca_corr(plate_df)
+
+        data_dict_2[plate] = plate_df   
+    data_df_2 = pd.concat(data_dict_2, join='inner', ignore_index=True)
+    if modality_2 =='Compounds':
+        data_df_2.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
+    data_df_2['Metadata_modality'] = modality_2
+    if sphere == 'batch':
+        data_df_2 = sphere_plate_zca_corr(data_df_2)
+    data_df_2 = remove_negcon_empty_wells(data_df_2)
+
+    replicate_corr = list(correlation_between_modalities(data_df_1, data_df_2, modality_1, modality_2, 'Metadata_genes', 'Metadata_broad_sample'))
+    null_corr = list(null_correlation_between_modalities(data_df_1, data_df_2, modality_1, modality_2, 'Metadata_genes', 'Metadata_broad_sample', n_samples))
+
+    prop_95, _, _ = percent_score(null_corr, replicate_corr, how='both')
+
+    return(prop_95)
+
 def plot_simple_comparison(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
 col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
 ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
