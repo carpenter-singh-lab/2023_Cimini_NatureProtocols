@@ -625,8 +625,19 @@ sphere=None,suffix = '_normalized_negcon.csv.gz',drop='AGP'):
 
     data_dict_2 = {}
     for plate in platelist_2:
-        plate_df = pd.read_csv(os.path.join(batch_path_2, plate,
+        plate_df = pd.read_csv(os.path.join(batch_path_1, plate,
                                             plate+suffix))
+        cols_to_drop = [x for x in plate_df.columns if drop in x]
+        plate_df.drop(columns=cols_to_drop,inplace=True)
+        feature_select_features = pycytominer.cyto_utils.infer_cp_features(
+        plate_df
+        )
+        plate_df = pycytominer.feature_select(
+        profiles=plate_df,
+        features=feature_select_features,
+        operation=['variance_threshold','correlation_threshold',
+        'drop_na_columns','blocklist']
+        )
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
