@@ -60,15 +60,15 @@ else:
     im=IJ.getImage()
     IJ.run("Duplicate...", "duplicate channels=1-5 title=Composite")
     im=IJ.getImage()
-    LUT_dict = {1:"Magenta",2:"Red", 3:"Yellow",4:"Green",5:"Cyan"}
+    LUT_dict = {1:"Red",2:"Orange Hot", 3:"Yellow",4:"Green",5:"Cyan"}
     for eachkey in LUT_dict.keys():
         im.setSlice(eachkey)
         IJ.run(LUT_dict[eachkey])
     IJ.setMinAndMax(minval, maxval)
     if bin == 2:
-        boxsize=200
+        boxsize=150
     else:
-        boxsize=400
+        boxsize=300
     IJ.makeRectangle(0, 0, boxsize, boxsize)
     myWait = WaitForUserDialog ("", "Drag the box to a single representative field, and adjust contrast if needed (but try not to). The script will crop it, apply a scale bar, and save it.")
     myWait.show()
@@ -83,18 +83,32 @@ else:
     else:
         #start of Magic Montage code - https://wsr.imagej.net/macros/toolsets/Magic%20Montage.txt
         b=im.bitDepth
+        WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))	
+        IJ.run("Duplicate...", "duplicate channels=1-5")
         IJ.newImage("tempmont", "RGB", boxsize, boxsize,6)
+        IJ.newImage("tempmont_gray", "RGB", boxsize, boxsize,6)
         for i in range(1,6):
             IJ.setPasteMode("copy")
             WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))	
-            IJ.run("Duplicate...", "duplicate channels="+str(i)+" title=temp"+str(i))
-            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-"+str(i)))
+            IJ.run("Duplicate...", "duplicate channels="+str(i)+" title=temp"+str(i*2))
+            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-"+str(i*2)))
             IJ.run("RGB Color")
             IJ.run("Copy")
             WindowManager.setTempCurrentImage(WindowManager.getImage("tempmont"))
             im2=IJ.getImage()
             im2.setSlice(i)
             IJ.run("Paste")
+            IJ.setPasteMode("copy")
+            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-1"))	
+            IJ.run("Duplicate...", "duplicate channels="+str(i)+" title=temp"+str((i*2)+1))
+            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-"+str((i*2)+1)))
+            IJ.run("Grays")
+            IJ.run("RGB Color")
+            IJ.run("Copy")
+            WindowManager.setTempCurrentImage(WindowManager.getImage("tempmont_gray"))
+            im2=IJ.getImage()
+            im2.setSlice(i)
+            IJ.run("Paste")      
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))
         IJ.run("RGB Color")
         IJ.run("Copy")
@@ -102,7 +116,6 @@ else:
         im2=IJ.getImage()
         im2.setSlice(6)
         IJ.run("Paste")
-        im2.setCalibration(calibration)
         IJ.run("Properties...", "channels=1 slices=6 frames=1 pixel_width="+pixel_size+" pixel_height="+pixel_size+" voxel_depth=1")
         IJ.run("Make Montage...", "columns=3 rows=2 scale=1 border=1")
         if bin ==2:
@@ -110,6 +123,20 @@ else:
         else:
             IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
         IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'_montage.png'))
+        WindowManager.setTempCurrentImage(WindowManager.getImage("Composite (RGB)"))
+        IJ.getImage()
+        IJ.run("Copy")
+        WindowManager.setTempCurrentImage(WindowManager.getImage("tempmont_gray"))
+        im2=IJ.getImage()
+        im2.setSlice(6)
+        IJ.run("Paste")
+        IJ.run("Properties...", "channels=1 slices=6 frames=1 pixel_width="+pixel_size+" pixel_height="+pixel_size+" voxel_depth=1")
+        IJ.run("Make Montage...", "columns=3 rows=2 scale=1 border=1")
+        if bin ==2:
+            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
+        else:
+            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
+        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'_montage_gray.png'))
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite (RGB)"))
         if bin ==2:
             IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
