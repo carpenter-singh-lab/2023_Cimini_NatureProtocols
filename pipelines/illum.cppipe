@@ -1,0 +1,661 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:413
+GitHash:
+ModuleCount:37
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. Drag and drop your image folders into the module.', 'You can also specify a set of rules to include only the desired files in your selected folders.', 'For a large screen, it may take a long time to read and collect all the images. However, this only needs to be done once as the file list is saved as part of the project file.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:Images only
+    Select the rule criteria:and (extension does isimage) (directory doesnot containregexp "[\\\\/]\\.")
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e. metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file. The settings here assume a Perkin Elmer Opera Phenix microscope and use the folder name to extract the Plate and the file name to extract the Row, Column, Site, and Channel. The Well is automatically extracted.', 'When using your own dataset, you will need to update this module to recognize and extract your metadata.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:2
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:Folder name
+    Regular expression to extract from file name:^(?P<Plate>.*)_(?P<Well>[A-P][0-9]{2})_s(?P<Site>[0-9])_w(?P<ChannelNumber>[0-9])
+    Regular expression to extract from folder name:(?P<Plate>[A-Z]{2}[0-9]{8})__
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:r(?P<Row>[0-9]{2})c(?P<Column>[0-9]{2})f(?P<Site>[0-9]{2}).*ch(?P<Channel>[0-9]{1})
+    Regular expression to extract from folder name:(?P<Date>[0-9]{4}_[0-9]{2}_[0-9]{2})$
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain "")
+    Metadata file location:Elsewhere...|
+    Match file and image metadata:[]
+    Use case insensitive matching?:No
+    Metadata file name:None
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.', 'The settings here match the channels by the channel number collected in the Metadata module.', ' Setting the image set matching method to Metadata has the advantage of omitting sites in which there is a metadata mismatch i.e missing files.', 'Select Update to create your image sets and populate the chart below. Note that this may take several minutes depending upon your number of files.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:DNA
+    Match metadata:[]
+    Image set matching method:Order
+    Set intensity range from:Image metadata
+    Assignments count:8
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:and (metadata does Channel "1")
+    Name to assign these images:OrigMito
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "2")
+    Name to assign these images:OrigAGP
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "3")
+    Name to assign these images:OrigRNA
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "4")
+    Name to assign these images:OrigER
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "5")
+    Name to assign these images:OrigDNA
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "6")
+    Name to assign these images:OrigBrightfield_H
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "7")
+    Name to assign these images:OrigBrightfield_L
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:and (metadata does Channel "8")
+    Name to assign these images:OrigBrightfield
+    Name to assign these objects:Cell
+    Select the image type:Grayscale image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. ', 'Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.', 'This pipeline performs per-plate grouping in order to produce an illumination image for each channel, for each plate. See Singh et al. J Microscopy, 256: 231-6, 2014 for more details']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:Yes
+    grouping metadata count:1
+    Metadata category:Plate
+
+Resize:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigDNA
+    Name the output image:DownsampledDNA
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:6|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampledDNA
+    Name the output image:IllumDNA
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:7|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumDNA
+    Name the output image:UpsampledIllumDNA
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:8|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigER
+    Name the output image:DownsampledER
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:9|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampledER
+    Name the output image:IllumER
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:10|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumER
+    Name the output image:UpsampledIllumER
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:11|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigRNA
+    Name the output image:DownsampledRNA
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:12|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampledRNA
+    Name the output image:IllumRNA
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:13|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumRNA
+    Name the output image:UpsampledIllumRNA
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:14|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigAGP
+    Name the output image:DownsampledAGP
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:15|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampledAGP
+    Name the output image:IllumAGP
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:16|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumAGP
+    Name the output image:UpsampledIllumAGP
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:17|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigMito
+    Name the output image:DownsampledMito
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:18|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampledMito
+    Name the output image:IllumMito
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:19|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumMito
+    Name the output image:UpsampledIllumMito
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:20|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigBrightfield
+    Name the output image:DownsampleBrightfield
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:21|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampleBrightfield
+    Name the output image:IllumBrightfield
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:22|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumBrightfield
+    Name the output image:UpsampledIllumBrightfield
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:23|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigBrightfield_H
+    Name the output image:DownsampleBFHigh
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:24|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampleBFHigh
+    Name the output image:IllumBFHigh
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:25|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumBFHigh
+    Name the output image:UpsampledIllumBFHigh
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+Resize:[module_num:26|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:OrigBrightfield_L
+    Name the output image:DownsampleBFLow
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:0.2
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+CorrectIlluminationCalculate:[module_num:27|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:DownsampleBFLow
+    Name the output image:IllumBFLow
+    Select how the illumination function is calculated:Regular
+    Dilate objects in the final averaged image?:No
+    Dilation radius:1
+    Block size:60
+    Rescale the illumination function?:Yes
+    Calculate function for each image individually, or based on all images?:All: Across cycles
+    Smoothing method:Median Filter
+    Method to calculate smoothing filter size:Manually
+    Approximate object diameter:10
+    Smoothing filter size:20
+    Retain the averaged image?:No
+    Name the averaged image:IllumBlueAvg
+    Retain the dilated image?:No
+    Name the dilated image:IllumBlueDilated
+    Automatically calculate spline parameters?:Yes
+    Background mode:auto
+    Number of spline points:5
+    Background threshold:2
+    Image resampling factor:2
+    Maximum number of iterations:40
+    Residual value for convergence:0.001
+
+Resize:[module_num:28|svn_version:'Unknown'|variable_revision_number:4|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:IllumBFLow
+    Name the output image:UpsampledIllumBFLow
+    Resizing method:Resize by a fraction or multiple of the original size
+    Resizing factor:5
+    Width of the final image:100
+    Height of the final image:100
+    Interpolation method:Bilinear
+    Method to specify the dimensions:Manual
+    Select the image with the desired dimensions:None
+    Additional image count:0
+
+SaveImages:[module_num:29|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumAGP
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumAGP
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:30|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumDNA
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumDNA
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:31|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumER
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumER
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:32|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumMito
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumMito
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:33|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumRNA
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumRNA
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:34|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumBFLow
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumBrightfield_L
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:35|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumBFHigh
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumBrightfield_H
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+SaveImages:[module_num:36|svn_version:'Unknown'|variable_revision_number:15|show_window:False|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:UpsampledIllumBrightfield
+    Select method for constructing file names:Single name
+    Select image name for file prefix:None
+    Enter single file name:\g<Plate>_IllumBrightfield
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:npy
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Last cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
+
+CreateBatchFiles:[module_num:37|svn_version:'Unknown'|variable_revision_number:8|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:False|wants_pause:False]
+    Store batch files in default output folder?:Yes
+    Output folder path:C:\Users\Administrator
+    Are the cluster computers running Windows?:No
+    Hidden- in batch mode:No
+    Hidden- in distributed mode:No
+    Hidden- default input folder at time of save:C:\Users\Administrator
+    Hidden- revision number:0
+    Hidden- from old matlab:No
