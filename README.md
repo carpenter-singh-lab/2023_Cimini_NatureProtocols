@@ -1,5 +1,11 @@
 # 2022_Cimini_NatureProtocols
 
+This repo contains supporting analyses and files for Cimini et al "Optimizing the Cell Painting assay for image-based profiling". 
+
+## Experiment metadata
+
+This paper contains a large number of analyses taken from many experiments over the course of more than a year. We have endeavored to add as much metadata as possible; a [static copy]9https://github.com/carpenterlab/2022_Cimini_NatureProtocols/blob/main/JUMPExperimentMasterTable.csv) is present in the repo, and a [live copy](https://docs.google.com/spreadsheets/d/1aq0exhd6-3rM8eFlAtW6tb5LzQTmvbjY-ofA-Pq2Hsc/edit#gid=0) is available online and should contain the most up-to-date information.
+
 ## Download cell images
 
 Cell images are available on an S3 bucket.
