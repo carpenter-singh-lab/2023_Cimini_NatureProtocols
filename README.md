@@ -16,7 +16,7 @@ Cell images are available on an S3 bucket.
 The images can be downloaded using the command
 
 ```bash
-plate = BR00117011__2020-11-08T19_57_47-Measurement1
+plate=BR00117011__2020-11-08T19_57_47-Measurement1
 aws s3 cp \
   --no-sign-request \
   --recursive \
@@ -39,7 +39,7 @@ Illumination correction files, produced by running illum.cppipe on the cell imag
 The images can be downloaded using the command
 
 ```bash
-plate = BR00117011
+plate=BR00117011
 aws s3 cp \
   --no-sign-request \
   --recursive \
