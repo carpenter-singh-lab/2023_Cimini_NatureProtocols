@@ -64,23 +64,37 @@ def percent_score(null_dist, corr_dist, how='right'):
         below_threshold = corr_dist < perc_5
         return 100 * np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float)), perc_95, perc_5
     
-def corr_between_replicates(df, group_by_feature):
+def corr_between_replicates(df, group_by_feature,indiv=False):
     """
     Correlation between replicates
     :param df: pd.DataFrame
     :param group_by_feature: Feature name to group the data frame by
     :return: list-like of correlation values
     """
-    replicate_corr = []
+    if indiv:
+        replicate_corr = {1:[]}
+    else:   
+        replicate_corr = []
     replicate_grouped = df.groupby(group_by_feature)
     for name, group in replicate_grouped:
         group_features = get_featuredata(group)
         corr = np.corrcoef(group_features)
-        if len(group_features) == 1:  # If there is only one replicate on a plate
-            replicate_corr.append(np.nan)
+        if indiv:
+            if len(group_features) == 1:  # If there is only one replicate on a plate
+                replicate_corr[1].append(np.nan)
+            else:
+                np.fill_diagonal(corr, np.nan)
+                for eachrep in range(corr.shape[0]):
+                    if eachrep not in replicate_corr.keys():
+                        replicate_corr[eachrep] = [np.nanmedian(corr[eachrep])]
+                    else:
+                        replicate_corr[eachrep] += [np.nanmedian(corr[eachrep])]
         else:
-            np.fill_diagonal(corr, np.nan)
-            replicate_corr.append(np.nanmedian(corr))  # median replicate correlation
+            if len(group_features) == 1:  # If there is only one replicate on a plate
+                replicate_corr.append(np.nan)
+            else:
+                np.fill_diagonal(corr, np.nan)
+                replicate_corr.append(np.nanmedian(corr))  # median replicate correlation
     return replicate_corr
 
 def corr_between_non_replicates(df, n_samples, n_replicates, metadata_compound_name):
@@ -396,7 +410,7 @@ def sphere_plate_zca_corr(plate):
     assert combined.shape == plate.shape
     return combined
 
-def calculate_percent_replicating_MOA(batch_path,plate,data_df=None):
+def calculate_percent_replicating_MOA(batch_path,plate,data_df=None,indiv=False):
     """
     For plates treated with the JUMP-MOA source plates, at least 
     4 copies of each perturbation are present on each plate.
@@ -412,10 +426,17 @@ def calculate_percent_replicating_MOA(batch_path,plate,data_df=None):
 
     data_df = remove_negcon_empty_wells(data_df)
 
-    replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name))
     null_corr = list(corr_between_non_replicates(data_df, n_samples=n_samples_strong, n_replicates=4, metadata_compound_name = metadata_compound_name))
 
-    prop_95, _ = percent_score(null_corr, replicate_corr)
+    if indiv:
+        replicate_corr = corr_between_replicates(data_df, metadata_compound_name, indiv=True)
+        prop_95 = []
+        for k,v in replicate_corr.items():
+            rep_prop_95, _ =  percent_score(null_corr, v)
+            prop_95.append(rep_prop_95)
+    else:
+        replicate_corr = list(corr_between_replicates(data_df, metadata_compound_name, indiv=False))
+        prop_95, _ = percent_score(null_corr, replicate_corr)
 
     return(prop_95)
 
@@ -667,6 +688,50 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     hue=hue, hue_order=hue_order, col=col, col_order = col_order, col_wrap=col_wrap,row=row,
     row_order = row_order, palette='Set1',s=12,linewidth=1,jitter=jitter,
     alpha=0.8,dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws)
+    if sharex:
+        labels = []
+        if not order:
+            orig_labels = list(dict.fromkeys(df[x].values).keys())
+        else:
+            orig_labels = order
+        for label in orig_labels:
+            if type(label)!= str:
+                label = str(int(label))
+            labels.append(textwrap.fill(label, width=45/len(orig_labels),break_long_words=False))
+        g.set_xticklabels(labels=labels,rotation=0)
+    if ylim:
+        ymin,ymax=ylim
+    else:
+        ymin = 50
+        ymax = 80 
+    if df[y].min()<ymin:
+        ymin = df[y].min()-2
+    if df[y].max()>ymax:
+        ymax = df[y].max()+2
+    g.set(ylim=([ymin,ymax]))    
+    if plotname:
+        plotname = f"../figures/{plotname}"
+    else:
+        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
+    if not col:
+        if not row:
+            if title:
+                g.set(title=title)
+            else:
+                g.set(title=f"{x}-{y}")
+    g.savefig(plotname,dpi=300)
+    print(f'Saved to {plotname}')
+
+def plot_simple_comparison_with_errorbars(df,x,hue,y='Percent Replicating',order=None,hue_order=None,
+col=None, col_order=None, col_wrap=None,row=None,row_order=None,jitter=0.25,dodge=True,plotname=None,
+ylim=None, title=None,aspect=1,sharex=True,facet_kws={},errorbar="sd"):
+    df = df.explode(y).reset_index(drop=True)
+    plt.rcParams["legend.markerscale"] =1.5
+    sns.set_style("ticks")
+    sns.set_context("paper",font_scale=1.5)
+    g = sns.catplot(data=df, x = x ,y = y, order=order,
+    hue=hue, hue_order=hue_order, col=col, col_order = col_order, col_wrap=col_wrap,row=row,
+    row_order = row_order, palette='Set1',dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws,errorbar=errorbar,kind='point')
     if sharex:
         labels = []
         if not order:
