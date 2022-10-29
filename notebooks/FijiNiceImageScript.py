@@ -76,12 +76,13 @@ else:
     im = IJ.getImage()
     if do_montage=='No':
         if bin ==2:
-            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
+            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold overlay")
         else:
-            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'.png'))
+            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold overlay")
+        IJ.saveAs("bmp",os.path.join(output_path,batch+'-'+plate+'.bmp'))
+        IJ.run("Export SVG", "file="+os.path.join(output_path,batch+'-'+plate)+".svg interpolationrange=0.0")
     else:
-        #start of Magic Montage code - https://wsr.imagej.net/macros/toolsets/Magic%20Montage.txt
+        #start of Magic-Montage-inspired code - https://wsr.imagej.net/macros/toolsets/Magic%20Montage.txt
         b=im.bitDepth
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))	
         IJ.run("Duplicate...", "duplicate channels=1-5")
@@ -120,10 +121,11 @@ else:
         IJ.run("Properties...", "channels=1 slices=6 frames=1 pixel_width="+pixel_size+" pixel_height="+pixel_size+" voxel_depth=1")
         IJ.run("Make Montage...", "columns=3 rows=2 scale=1 border=1")
         if bin ==2:
-            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
+            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold overlay")
         else:
-            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'_montage.png'))
+            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold overlay")
+        IJ.saveAs("bmp",os.path.join(output_path,batch+'-'+plate+'_montage.bmp'))
+        IJ.run("Export SVG", "file="+os.path.join(output_path,batch+'-'+plate)+"_montage.svg interpolationrange=0.0")
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite (RGB)"))
         IJ.getImage()
         IJ.run("Copy")
@@ -135,14 +137,16 @@ else:
         IJ.run("Properties...", "channels=1 slices=6 frames=1 pixel_width="+pixel_size+" pixel_height="+pixel_size+" voxel_depth=1")
         IJ.run("Make Montage...", "columns=3 rows=2 scale=1 border=1")
         if bin ==2:
-            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
+            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold overlay")
         else:
-            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'_montage_gray.png'))
+            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold overlay")
+        IJ.saveAs("bmp",os.path.join(output_path,batch+'-'+plate+'_montage_gray.bmp'))
+        IJ.run("Export SVG", "file="+os.path.join(output_path,batch+'-'+plate)+"_montage_gray.svg interpolationrange=0.0")
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite (RGB)"))
         if bin ==2:
-            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold")
+            IJ.run("Scale Bar...", "width=25 height=4 font=14 color=White background=None location=[Lower Right] bold overlay")
         else:
-            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold")
-        IJ.saveAs("png",os.path.join(output_path,batch+'-'+plate+'.png'))
+            IJ.run("Scale Bar...", "width=25 height=8 font=28 color=White background=None location=[Lower Right] bold overlay")
+        IJ.saveAs("bmp",os.path.join(output_path,batch+'-'+plate+'.bmp'))
+        IJ.run("Export SVG", "file="+os.path.join(output_path,batch+'-'+plate)+".svg interpolationrange=0.0")
     IJ.run("Close All")
