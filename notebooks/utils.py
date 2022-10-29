@@ -691,7 +691,7 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     if plotname:
         plotname = f"../figures/{plotname}"
     else:
-        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
+        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.svg"
     if not col:
         if not row:
             if title:
@@ -734,7 +734,7 @@ title_variable = None, facet_kws={'sharex':True}):
         g.set(title=title)
     elif title_variable:
         g.set(title=title_variable)
-    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}-{style}.png"
+    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}-{style}.svg"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
