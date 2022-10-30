@@ -665,7 +665,7 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     sns.set_context("paper",font_scale=1.5)
     g = sns.catplot(data=df, x = x ,y = y, order=order,
     hue=hue, hue_order=hue_order, col=col, col_order = col_order, col_wrap=col_wrap,row=row,
-    row_order = row_order, palette='Set1',s=12,linewidth=1,jitter=jitter,
+    row_order = row_order, palette='Set1',s=80,linewidth=1,jitter=jitter,
     alpha=0.8,dodge=dodge,aspect=aspect,sharex=sharex,facet_kws=facet_kws)
     if sharex:
         labels = []
@@ -691,7 +691,7 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
     if plotname:
         plotname = f"../figures/{plotname}"
     else:
-        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.png"
+        plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}.svg"
     if not col:
         if not row:
             if title:
@@ -734,7 +734,7 @@ title_variable = None, facet_kws={'sharex':True}):
         g.set(title=title)
     elif title_variable:
         g.set(title=title_variable)
-    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}-{style}.png"
+    plotname = f"../figures/{x}-{y}-{hue}-{col}-{row}-{style}.svg"
     g.savefig(plotname,dpi=300)
     print(f'Saved to {plotname}')
 
