@@ -1,4 +1,5 @@
 # 2022_Cimini_NatureProtocols
+[![DOI](https://zenodo.org/badge/479153223.svg)](https://zenodo.org/badge/latestdoi/479153223)
 
 This repo contains supporting analyses and files for Cimini et al "Optimizing the Cell Painting assay for image-based profiling".
 
