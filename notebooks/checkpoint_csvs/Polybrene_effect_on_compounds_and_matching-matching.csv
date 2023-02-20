@@ -1,7 +1,7 @@
-Percent Matching,Modality Match,Treatment timepoint,Polybrene effect on compounds and matching
-38.80267558528428,Compounds - Compounds,48-48,Target2 - Target2 + Polybrene
-8.218954248366012,Compounds - ORF,48-48,Target2 - ORF
-6.594771241830066,Compounds - ORF,48-96,Target2 - ORF
-4.937908496732026,Compounds - ORF,48-48,Target2 + Polybrene - ORF
-6.254901960784314,Compounds - ORF,48-96,Target2 + Polybrene - ORF
-50.0,ORF - ORF,48-96,ORF - ORF
+Percent Matching,Modality Match,Treatment timepoint,Polybrene effect on compounds and matching,Plates
+38.80267558528428,Compounds - Compounds,48-48,Target2 - Target2 + Polybrene,"['BR00121434', 'BR00121435', 'BR00121440', 'BR00121431', 'BR00121432', 'BR00121433']"
+8.218954248366012,Compounds - ORF,48-48,Target2 - ORF,"['BR00121434', 'BR00121435', 'BR00121440', 'BR00117022', 'BR00117023']"
+6.594771241830066,Compounds - ORF,48-96,Target2 - ORF,"['BR00121434', 'BR00121435', 'BR00121440', 'BR00118039', 'BR00118040']"
+4.937908496732026,Compounds - ORF,48-48,Target2 + Polybrene - ORF,"['BR00121431', 'BR00121432', 'BR00121433', 'BR00117022', 'BR00117023']"
+6.254901960784314,Compounds - ORF,48-96,Target2 + Polybrene - ORF,"['BR00121431', 'BR00121432', 'BR00121433', 'BR00118039', 'BR00118040']"
+50.0,ORF - ORF,48-96,ORF - ORF,"['BR00117022', 'BR00117023', 'BR00118039', 'BR00118040']"
