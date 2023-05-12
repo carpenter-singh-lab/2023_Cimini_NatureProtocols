@@ -62,7 +62,7 @@ def percent_score(null_dist, corr_dist, how='right'):
         above_threshold = corr_dist > perc_95
         perc_5 = np.nanpercentile(null_dist, 5)
         below_threshold = corr_dist < perc_5
-        return 100 * np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float)), perc_95, perc_5
+        return 100 * (np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float))), perc_95, perc_5
     
 def corr_between_replicates(df, group_by_feature):
     """
