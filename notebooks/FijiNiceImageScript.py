@@ -19,7 +19,7 @@ else:
   gd.addNumericField("Min final brightness",0,0)
   gd.addNumericField("Max final brightness",40000,0)
   gd.addStringField("Output folder", "/your/path/to/2022_Cimini_NatureProtocols/figures/image_crops", 100)
-  gd.showDialog()  
+  gd.showDialog()
   if gd.wasCanceled():
     print("User canceled dialog!")
   else:
@@ -30,14 +30,14 @@ else:
     minval=int(gd.getNextNumber())
     maxval=int(gd.getNextNumber())
     output_path=gd.getNextString()
-    
+
     if scope == 'phenix':
         plate = platefolder.split('/')[-2]
         batch = platefolder.split('/')[-4]
     else:
         plate = platefolder.split('/')[-2]
         batch = platefolder.split('/')[-3]
-    
+
     if scope == 'phenix':
         IJ.run("Image Sequence...", "open="+platefolder+"/Images sort")
     else:
@@ -84,13 +84,13 @@ else:
     else:
         #start of Magic-Montage-inspired code - https://wsr.imagej.net/macros/toolsets/Magic%20Montage.txt
         b=im.bitDepth
-        WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))	
+        WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))
         IJ.run("Duplicate...", "duplicate channels=1-5")
         IJ.newImage("tempmont", "RGB", boxsize, boxsize,6)
         IJ.newImage("tempmont_gray", "RGB", boxsize, boxsize,6)
         for i in range(1,6):
             IJ.setPasteMode("copy")
-            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))	
+            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))
             IJ.run("Duplicate...", "duplicate channels="+str(i)+" title=temp"+str(i*2))
             WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-"+str(i*2)))
             IJ.run("RGB Color")
@@ -100,7 +100,7 @@ else:
             im2.setSlice(i)
             IJ.run("Paste")
             IJ.setPasteMode("copy")
-            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-1"))	
+            WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-1"))
             IJ.run("Duplicate...", "duplicate channels="+str(i)+" title=temp"+str((i*2)+1))
             WindowManager.setTempCurrentImage(WindowManager.getImage("Composite-"+str((i*2)+1)))
             IJ.run("Grays")
@@ -109,7 +109,7 @@ else:
             WindowManager.setTempCurrentImage(WindowManager.getImage("tempmont_gray"))
             im2=IJ.getImage()
             im2.setSlice(i)
-            IJ.run("Paste")      
+            IJ.run("Paste")
         WindowManager.setTempCurrentImage(WindowManager.getImage("Composite"))
         IJ.run("RGB Color")
         IJ.run("Copy")
