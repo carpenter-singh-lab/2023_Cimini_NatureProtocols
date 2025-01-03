@@ -63,7 +63,7 @@ def percent_score(null_dist, corr_dist, how='right'):
         perc_5 = np.nanpercentile(null_dist, 5)
         below_threshold = corr_dist < perc_5
         return 100 * (np.mean(above_threshold.astype(float)) + np.mean(below_threshold.astype(float))), perc_95, perc_5
-    
+
 def corr_between_replicates(df, group_by_feature):
     """
     Correlation between replicates
@@ -134,7 +134,7 @@ def corr_between_non_replicates_across_plates(df, reference_df, n_samples, pertc
     df = df[common_columns]
     reference_df = reference_df[common_columns]
     null_corr = []
-    compounds = list(df[pertcol].unique())  
+    compounds = list(df[pertcol].unique())
     while len(null_corr) < n_samples:
         both_compounds = np.random.choice(compounds, size=2, replace=False)
         compound1 = both_compounds[0]
@@ -398,7 +398,7 @@ def sphere_plate_zca_corr(plate):
 
 def calculate_percent_replicating_MOA(batch_path,plate,data_df=None):
     """
-    For plates treated with the JUMP-MOA source plates, at least 
+    For plates treated with the JUMP-MOA source plates, at least
     4 copies of each perturbation are present on each plate.
     Percent replicating is therefore calculated per plate.
     """
@@ -421,7 +421,7 @@ def calculate_percent_replicating_MOA(batch_path,plate,data_df=None):
 
 def calculate_percent_replicating_across_plates_MOA(batch_path1,plate1,batch_path2,plate2 ):
     """
-    For plates treated with the JUMP-MOA source plates, at least 
+    For plates treated with the JUMP-MOA source plates, at least
     4 copies of each perturbation are present on each plate.
     Percent replicating is therefore calculated per plate.
     """
@@ -447,7 +447,7 @@ def calculate_percent_replicating_across_plates_MOA(batch_path1,plate1,batch_pat
 
 def calculate_percent_matching_MOA(batch_path,plate):
     """
-    For plates treated with the JUMP-MOA source plates, at least 
+    For plates treated with the JUMP-MOA source plates, at least
     4 copies of each perturbation are present on each plate.
     Percent replicating is therefore calculated per plate.
     """
@@ -471,17 +471,17 @@ def calculate_percent_matching_MOA(batch_path,plate):
 def calculate_percent_replicating_Target(batch_path,platelist,sphere=None,
 suffix = '_normalized_feature_select_negcon.csv.gz',n_replicates=4):
     """
-    For plates treated with the JUMP-Target source plates, most 
-    perturbations are only present in one or two 2 copies per plate. 
+    For plates treated with the JUMP-Target source plates, most
+    perturbations are only present in one or two 2 copies per plate.
     Percent replicating is therefore calculated per group of replicate plates.
 
     Since feature selection happens on a per-plate level, an inner join
     is performed across all plates in the replicate, meaning only common
     features are used in calculation of percent replicating.
 
-    It doesn't look like sphering was done consistently in previous 
-    analysis of these plates, therefore it is configurable here; either 
-    not done, done at the plate level by passing 'sphere=plate', or 
+    It doesn't look like sphering was done consistently in previous
+    analysis of these plates, therefore it is configurable here; either
+    not done, done at the plate level by passing 'sphere=plate', or
     done at the batch level by passing 'sphere=batch'.
     """
     metadata_compound_name = 'Metadata_broad_sample'
@@ -492,12 +492,12 @@ suffix = '_normalized_feature_select_negcon.csv.gz',n_replicates=4):
     for plate in platelist:
         plate_df = pd.read_csv(os.path.join(batch_path, plate,
                                             plate+suffix))
-        
+
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
         data_dict[plate] = plate_df
-    
+
     data_df = pd.concat(data_dict, join='inner', ignore_index=True)
 
     if sphere == 'batch':
@@ -538,9 +538,9 @@ def calculate_percent_matching_Target(batch_path_1,platelist_1,modality_1, batch
 sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
     """
 
-    It doesn't look like sphering was done consistently in previous 
-    analysis of these plates, therefore it is configurable here; either 
-    not done, done at the plate level by passing 'sphere=plate', or 
+    It doesn't look like sphering was done consistently in previous
+    analysis of these plates, therefore it is configurable here; either
+    not done, done at the plate level by passing 'sphere=plate', or
     done at the batch level by passing 'sphere=batch'.
     """
     n_samples = 10000
@@ -552,7 +552,7 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
-        data_dict_1[plate] = plate_df   
+        data_dict_1[plate] = plate_df
     data_df_1 = pd.concat(data_dict_1, join='inner', ignore_index=True)
     if modality_1 =='Compounds':
         data_df_1.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
@@ -568,7 +568,7 @@ sphere=None,suffix = '_normalized_feature_select_negcon.csv.gz'):
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
-        data_dict_2[plate] = plate_df   
+        data_dict_2[plate] = plate_df
     data_df_2 = pd.concat(data_dict_2, join='inner', ignore_index=True)
     if modality_2 =='Compounds':
         data_df_2.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
@@ -588,9 +588,9 @@ def calculate_percent_matching_with_feature_dropout_Target(batch_path_1,platelis
 sphere=None,suffix = '_normalized_negcon.csv.gz',drop='AGP'):
     """
 
-    It doesn't look like sphering was done consistently in previous 
-    analysis of these plates, therefore it is configurable here; either 
-    not done, done at the plate level by passing 'sphere=plate', or 
+    It doesn't look like sphering was done consistently in previous
+    analysis of these plates, therefore it is configurable here; either
+    not done, done at the plate level by passing 'sphere=plate', or
     done at the batch level by passing 'sphere=batch'.
     """
     import pycytominer
@@ -614,7 +614,7 @@ sphere=None,suffix = '_normalized_negcon.csv.gz',drop='AGP'):
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
-        data_dict_1[plate] = plate_df   
+        data_dict_1[plate] = plate_df
     data_df_1 = pd.concat(data_dict_1, join='inner', ignore_index=True)
     if modality_1 =='Compounds':
         data_df_1.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
@@ -641,7 +641,7 @@ sphere=None,suffix = '_normalized_negcon.csv.gz',drop='AGP'):
         if sphere == 'plate':
             plate_df = sphere_plate_zca_corr(plate_df)
 
-        data_dict_2[plate] = plate_df   
+        data_dict_2[plate] = plate_df
     data_df_2 = pd.concat(data_dict_2, join='inner', ignore_index=True)
     if modality_2 =='Compounds':
         data_df_2.rename(columns={'Metadata_target':'Metadata_genes'},inplace=True)
@@ -682,12 +682,12 @@ ylim=None, title=None,aspect=1,sharex=True,facet_kws={}):
         ymin,ymax=ylim
     else:
         ymin = 50
-        ymax = 80 
+        ymax = 80
     if df[y].min()<ymin:
         ymin = df[y].min()-2
     if df[y].max()>ymax:
         ymax = df[y].max()+2
-    g.set(ylim=([ymin,ymax]))    
+    g.set(ylim=([ymin,ymax]))
     if plotname:
         plotname = f"../figures/{plotname}"
     else:
@@ -707,7 +707,7 @@ title_variable = None, facet_kws={'sharex':True}):
     plt.rcParams["legend.markerscale"] =1.5
     sns.set_style("ticks")
     sns.set_context("paper",font_scale=1.5)
-    g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order, 
+    g = sns.relplot(data=df, x = x ,y= y, hue=hue, hue_order=hue_order, col=col, col_order = col_order,
     col_wrap=col_wrap, row=row, row_order = row_order, style = style, palette='Set1',edgecolor='k',alpha=0.8,s=80,
     facet_kws=facet_kws)
     if xlim:
@@ -719,12 +719,12 @@ title_variable = None, facet_kws={'sharex':True}):
         xmin = df[x].min()-2
     if df[x].max()>xmax:
         xmax = df[x].max()+2
-    g.set(xlim=([xmin,xmax]))  
+    g.set(xlim=([xmin,xmax]))
     if ylim:
         ymin,ymax=ylim
     else:
         ymin = 5
-        ymax = 40 
+        ymax = 40
     if df[y].min()<ymin:
         ymin = df[y].min()-2
     if df[y].max()>ymax:
@@ -774,5 +774,5 @@ def enforce_modality_match_order_in_plot(modalitylist):
         sublist.sort()
         master_modalitylist.append(sublist)
     master_modalitylist.sort()
-    outlist = [f"{modality_dict_reverse[x[0]]} - {modality_dict_reverse[x[1]]}" for x in master_modalitylist]    
+    outlist = [f"{modality_dict_reverse[x[0]]} - {modality_dict_reverse[x[1]]}" for x in master_modalitylist]
     return outlist
